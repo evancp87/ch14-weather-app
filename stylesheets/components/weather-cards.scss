@@ -1,0 +1,35 @@
+.cards {
+  display: flex;
+  flex-wrap: wrap;
+  width: 300px;
+}
+
+.card {
+  max-width: 100%;
+  width: 100%;
+  border: none;
+  border-radius: 10px;
+  height: auto;
+  display: flex;
+  padding: 1rem;
+  background-color: #4799e5;
+  justify-content: space-around;
+}
+
+.weather-icon {
+  max-width: 30px;
+  height: 30px;
+  display: block;
+  align-self: center;
+  /*   margin-inline-start: 1em; */
+  margin-block-start: 1.5em;
+}
+
+// things to experiment with
+// container queries
+// svgs
+// media query range syntax
+// text wrap balance
+// margin-trim
+// logical properties
+// custom properties for background colours- primary colors

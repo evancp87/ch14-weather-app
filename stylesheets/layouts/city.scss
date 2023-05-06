@@ -1,0 +1,9 @@
+@use '../abstracts/' as *;
+
+.container {
+  @include flexbox-config(
+    $flex-direction: column,
+    $align-items: center,
+    $justify-content: center
+  );
+}

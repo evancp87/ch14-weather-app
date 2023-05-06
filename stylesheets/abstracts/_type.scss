@@ -1,0 +1,14 @@
+// Font size variables to be used throughout project
+$HeadingOne: clamp(5rem, 3.906rem + 6.25vw, 9.375rem);
+$HeadingTwo: 100px;
+$planetHeading: clamp(3.5rem, 2.813rem + 3.929vw, 6.25rem);
+$HeadingFour: 32px;
+$HeadingFive: 28px;
+$subHeadingOne: 28px;
+$subHeadingTwo: 14px;
+$body-text: clamp(0.938rem, 0.891rem + 0.268vw, 1.125rem);
+$navText: 16px;
+$titleText: clamp(1.25rem, 1.125rem + 0.714vw, 1.75rem);
+$sub-nav: clamp(0.875rem, 0.844rem + 0.179vw, 1rem);
+$crew-position: clamp(1rem, 0.75rem + 1.429vw, 2rem);
+$crew-name: clamp(1.5rem, 1rem + 2.857vw, 3.5rem);
