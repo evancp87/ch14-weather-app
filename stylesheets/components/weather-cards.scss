@@ -15,6 +15,9 @@
   background-color: #4799e5;
   justify-content: space-around;
   margin-block: 1em;
+  &:hover {
+    cursor: pointer;
+  }
 }
 
 .weather-icon {

@@ -16,6 +16,9 @@
   justify-content: space-around;
   margin-block: 1em;
 }
+.card:hover {
+  cursor: pointer;
+}
 
 .weather-icon {
   max-width: 30px;
@@ -37,6 +40,15 @@
 }
 
 .search-icon {
+  max-width: 30px;
+  height: auto;
+  transition: filter 0.5s ease-in-out;
+}
+.search-icon:hover {
+  filter: drop-shadow(2px 4px 6px black);
+}
+
+.weather-icon {
   max-width: 30px;
   height: auto;
 }
