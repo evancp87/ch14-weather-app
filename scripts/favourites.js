@@ -42,7 +42,8 @@ export const getFavorites = async () => {
 
       const card = document.createElement("div");
       card.setAttribute("id", `${city}`);
-      card.classList.add("card");
+      // card.setAttribute("class", "card");
+      card.setAttribute("class", "favorite card");
 
       const card__text = document.createElement("div");
 
@@ -77,8 +78,10 @@ export const getFavorites = async () => {
       //   console.log(itemToDelete, "was deleted");
       // };
       // removeButton.addEventListener("click", removeFavorite);
-      const removeFavorite = () => {
+      const removeFavorite = (e) => {
+        e.stopPropagation();
         // save variable of item
+
         const itemToDelete = city;
         const citiesString = localStorage.getItem("cities");
         let citiesArray = JSON.parse(citiesString);
