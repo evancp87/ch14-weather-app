@@ -1,17 +1,8 @@
-import dotenv from "dotenv";
+import apiKey from "../apiKey.js";
 
-// Load environment variables from .env file
-dotenv.config();
-
-// use API key from environment variable
-const apiKey = process.env.API_KEY;
-
-const search = document.getElementById("search");
-
-const searchForm = document.getElementById("search-form");
-const submit = document.getElementById("submit");
-const searchData = document.getElementById("searchData");
+const search = document.getElementById("search-section");
 let weatherData;
+let results;
 
 // const searchForm = document.forms["search-form"]
 // const search = searchForm.elements["search"];
@@ -76,11 +67,10 @@ let weatherData;
 // searchForm.addEventListener("submit", searchHandler);
 
 export const loadForm = () => {
-  const form = document.createElement("form");
-  form.setAttribute("id", "search-form");
-  form.innerHTML = ` <form id="search-form" >
+  const formContainer = document.createElement("section");
+  formContainer.innerHTML = ` <form id="search-form" >
                <div>
-                   <img src="./images/research.png" alt="search icon">
+                   <img src="./images/research.png" class="search-icon" alt="search icon">
                    <input id="city-search" type="text">
                    <button type="submit"></button>
    
@@ -90,8 +80,8 @@ export const loadForm = () => {
   results = document.createElement("div");
   results.setAttribute("id", "results");
 
-  app.appendChild(form);
-  app.appendChild(results);
+  search.appendChild(formContainer);
+  search.appendChild(results);
 };
 
 window.addEventListener("load", () => {
@@ -99,17 +89,18 @@ window.addEventListener("load", () => {
   // searchHandler();
   loadForm();
 
-  const search = document.getElementById("city-search");
+  const search = document.getElementById("search-section");
   search.addEventListener("input", async (e) => {
     try {
       // let city = search.value;
       let city = e.target.value;
       console.log(city);
       const { data } = await axios.get(
-        `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${key}`
+        `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}`
       );
 
       weatherData = data;
+      console.log("the data is:", weatherData);
     } catch (error) {
       console.error("error:", error);
     }
@@ -173,7 +164,7 @@ window.addEventListener("load", () => {
 
       card.appendChild(plusIcon);
       results.appendChild(card);
-      // app.appendChild(card);
+      search.appendChild(card);
     }
   };
 
@@ -187,3 +178,8 @@ window.addEventListener("load", () => {
 //     // const cityName = cityName.textContent;
 //     window.location.href = `forecast.html?city=${cityName.textContent}&lon=${lon}&lat=${lat}`;
 //   });
+
+// TODO: implement- scroll to recently added favorite
+// const scrollToAddedFavorite = () => {
+//   window.scrollY
+// }
