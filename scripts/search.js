@@ -75,7 +75,7 @@ let weatherData;
 
 // searchForm.addEventListener("submit", searchHandler);
 
-const loadForm = () => {
+export const loadForm = () => {
   const form = document.createElement("form");
   form.setAttribute("id", "search-form");
   form.innerHTML = ` <form id="search-form" >
@@ -158,6 +158,8 @@ window.addEventListener("load", () => {
         const updatedCities = [...existingCities, name];
         localStorage.setItem("cities", JSON.stringify(updatedCities));
         console.log(`City '${name}' has been added to local storage.`);
+        // redirects to landing page
+        window.location.href = "index.html";
       });
 
       const tempData = document.createElement("p");
