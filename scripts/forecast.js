@@ -1,35 +1,7 @@
-// api.openweathermap.org/data/2.5/forecast?lat=36&lon=54&appid=019aa13e7aea9636052366f2137954d9
-
-// destructure
-
-// window.location.href = `forecast.html?city=${cityName}&temp=${temp}&description=${description}&icon=${icon}`;
-
-// const params = new URLSearchParams(window.location.search);
-// const cityName = params.get("city");
-// const temp = params.get("temp");
-// const description = params.get("description");
-// const icon = params.get("icon");
-
-// const forecastContainer = document.getElementById("forecast-container");
-// const forecastItem = document.createElement("div");
-// forecastItem.classList.add("forecast-item");
-// forecastItem.innerHTML = `
-//   <h2>${cityName}</h2>
-//   <img src="https://openweathermap.org/img/w/${icon}.png" alt="${description}">
-//   <p>${description} - ${temp} &deg;F</p>
-// `;
-
 // forecastContainer.appendChild(forecastItem);
+import apiKey from "../apiKey.js";
 
-import dotenv from "dotenv";
-
-// Load environment variables from .env file
-dotenv.config();
-
-// use API key from environment variable
-const apiKey = process.env.API_KEY;
-
-const loadForecastCity = async () => {
+export const loadForecastCity = async () => {
   const params = new URLSearchParams(window.location.search);
   const cityName = params.get("city");
   const lon = params.get("lon");
@@ -48,27 +20,42 @@ const loadForecastCity = async () => {
   ];
 
   const forecastContainer = document.getElementById("forecast");
-  const forecastList = document.createElement("div");
+  const backBtn = document.createElement("button");
+  backBtn.setAttribute("class", "forecast__back-button btn");
+  const back = `
+  
+<a href="index.html">
+
+  `;
+  backBtn.innerHTML = back;
+
+  const weatherToday = document.createElement("section");
+  weatherToday.setAttribute("class", "forecast__weather-today");
   const date = new Date();
 
-  const text = `
+  const cityDayWeather = `
   <h2>${cityName}</h2>
   <p>${date} </p>
   <p>${description} </p>
   <p>${temp} </p>`;
 
-  const dailySummary = document.createElement("div");
+  const dailySummary = document.createElement("section");
+  dailySummary.setAttribute("class", "forecast__daily-summary");
   const summaryText = weatherData.map((weather) => {
     const { name, value, icon } = weather;
 
     return `
+    <div class="forecast__daily-summary-item">
+    <img src="https://openweathermap.org/img/w/${icon}.png" alt="weather icon" class="forecast__daily-summary-weather-icon">
       <p>${value}</p>
-      <h3>${name}</h3> `;
+      <h3>${name}</h3>
+     </div>`;
   });
 
   dailySummary.innerHTML = summaryText.join(" ");
-  forecastList.innerHTML = text;
-  forecastContainer.appendChild(forecastList);
+  weatherToday.innerHTML = cityDayWeather;
+  forecastContainer.appendChild(backBtn);
+  forecastContainer.appendChild(weatherToday);
   forecastContainer.appendChild(dailySummary);
 
   try {
@@ -77,7 +64,8 @@ const loadForecastCity = async () => {
     );
 
     const { list } = data;
-    const forecast = document.createElement("div");
+    const forecastList = document.createElement("section");
+    forecastList.setAttribute("class", "forecast__list");
     const forecastArr = list.slice(1, 5).map((item) => ({
       description: item.weather[0].description,
       icon: item.weather[0].icon,
@@ -88,15 +76,19 @@ const loadForecastCity = async () => {
       .map((weather) => {
         const { description, date, icon } = weather;
         return `
+      <div class="forecast__list-item">
       <h3>${new Date(date * 1000)}</h3>
       <p>${description}</p> 
-      <p>${icon}</p>
-      
+      <img src="https://openweathermap.org/img/w/${icon}.png" alt="weather icon" class="forecast__daily-summary-weather-icon">
+
+      </div>
+    
       `;
       })
       .join("");
-    forecast.innerHTML = fourDayWeather;
-    forecastContainer.appendChild(forecast);
+
+    forecastList.innerHTML = fourDayWeather;
+    forecastContainer.appendChild(forecastList);
   } catch (error) {
     console.error("Error:", error);
   }
