@@ -14,6 +14,7 @@
   padding: 1rem;
   background-color: #4799e5;
   justify-content: space-around;
+  margin-block: 1em;
 }
 
 .weather-icon {
@@ -33,6 +34,11 @@
   background-color: #ffffff;
   color: #0b0d17;
   border-radius: 50%;
+}
+
+.search-icon {
+  max-width: 30px;
+  height: auto;
 }
 
 .container {
