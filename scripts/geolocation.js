@@ -1,10 +1,5 @@
-import dotenv from "dotenv";
+import apiKey from "../apiKey.js";
 
-// Load environment variables from .env file
-dotenv.config();
-
-// use API key from environment variable
-const apiKey = process.env.API_KEY;
 const app = document.getElementById("root");
 
 const successCallback = (position) => {
@@ -29,14 +24,14 @@ navigator.geolocation.getCurrentPosition(
   options
 );
 
-export const getCurrLocation = navigator.geolocation.getCurrentPosition(
-  async (position) => {
+export const getCurrLocation = () => {
+  return navigator.geolocation.getCurrentPosition(async (position) => {
     try {
       const { latitude, longitude } = position.coords;
 
       // Make a request to the OpenWeather API
       const { data } = await axios.get(
-        `https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&appid=${key}`
+        `https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&appid=${apiKey}`
       );
 
       const {
@@ -81,8 +76,8 @@ export const getCurrLocation = navigator.geolocation.getCurrentPosition(
     } catch (error) {
       console.error("error:", error);
     }
-  }
-);
+  });
+};
 
 // TODO: implement
 // card.addEventListener("click", () => {

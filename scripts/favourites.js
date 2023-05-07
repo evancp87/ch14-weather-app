@@ -1,18 +1,17 @@
 // api.openweathermap.org/data/2.5/group?id=5128581,2643743&appid=019aa13e7aea9636052366f2137954d9
 // import { key } from "./index";
 
-import dotenv from "dotenv";
+import apiKey from "../apiKey.js";
 
 // Load environment variables from .env file
-dotenv.config();
 
 // use API key from environment variable
-const apiKey = process.env.API_KEY;
 
 const favoritesSection = document.getElementById("favorites");
+const app = document.getElementById("root");
 
 // addButton.addEventListener("click", setFavorites);
-const getFavorites = async () => {
+export const getFavorites = async () => {
   // map over localStorage
   try {
     // const favoritesArray = Object.entries(localStorage).filter(
@@ -38,6 +37,8 @@ const getFavorites = async () => {
         wind: { speed },
         visibility,
       } = data;
+      const favoritesSection = document.createElement("section");
+      favoritesSection.setAttribute("class", "favorites");
 
       const card = document.createElement("div");
       card.setAttribute("id", `${city}`);
@@ -66,7 +67,8 @@ const getFavorites = async () => {
       removeButton.setAttribute("class", "remove-btn");
 
       card.appendChild(removeButton);
-      app.appendChild(card);
+      favoritesSection.appendChild(card);
+      app.appendChild(favoritesSection);
 
       // const removeFavorite = () => {
       //   // save variable of  item
