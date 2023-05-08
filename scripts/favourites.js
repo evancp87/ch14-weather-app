@@ -2,29 +2,22 @@
 // import { key } from "./index";
 
 import apiKey from "../apiKey.js";
+import createWeatherCard from "./helpers.js";
 
-// Load environment variables from .env file
-
-// use API key from environment variable
-
-const favoritesSection = document.getElementById("favorites");
 const app = document.getElementById("root");
 
-// addButton.addEventListener("click", setFavorites);
 export const getFavorites = async () => {
   // map over localStorage
   try {
-    // const favoritesArray = Object.entries(localStorage).filter(
-    //   (key) => key[0] === "cities"
-    // );
-    // console.log(favoritesArray);
-
     const citiesString = localStorage.getItem("cities");
     const citiesArray = JSON.parse(citiesString);
     const currentFavoritesLength = citiesArray.length;
 
-    // loop over favorites array and for each get the key and make an api call the item from localstorage
+    const favoritesSection = document.createElement("section");
+    favoritesSection.setAttribute("class", "favorites");
+    app.appendChild(favoritesSection);
 
+    // loop over favorites array and for each get the key and make an api call the item from localstorage
     for (let city of citiesArray) {
       console.log("the city is:", city);
       const { data } = await axios.get(
@@ -38,8 +31,6 @@ export const getFavorites = async () => {
         wind: { speed },
         visibility,
       } = data;
-      const favoritesSection = document.createElement("section");
-      favoritesSection.setAttribute("class", "favorites");
 
       const card = document.createElement("div");
       card.setAttribute("id", `${city}`);
@@ -70,15 +61,8 @@ export const getFavorites = async () => {
 
       card.appendChild(removeButton);
       favoritesSection.appendChild(card);
-      app.appendChild(favoritesSection);
+      // app.appendChild(favoritesSection);
 
-      // const removeFavorite = () => {
-      //   // save variable of  item
-      //   const itemToDelete = city;
-      //   localStorage.removeItem(itemToDelete);
-      //   console.log(itemToDelete, "was deleted");
-      // };
-      // removeButton.addEventListener("click", removeFavorite);
       const removeFavorite = (e) => {
         e.stopPropagation();
         // save variable of item
@@ -105,6 +89,7 @@ export const getFavorites = async () => {
         window.location.href = `forecast.html?city=${cityName.textContent}&lon=${lon}&lat=${lat}&description=${description}&temp=${temp}&humidity=${humidity}&speed=${speed}&visibility=${visibility}`;
       });
     }
+    // app.appendChild(favoritesSection);
 
     // TODO: fix this
     console.log(citiesArray);
@@ -121,4 +106,4 @@ export const getFavorites = async () => {
   }
 };
 
-window.addEventListener("load", getFavorites);
+// window.addEventListener("load", getFavorites);
