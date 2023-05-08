@@ -25,6 +25,9 @@ navigator.geolocation.getCurrentPosition(
 );
 
 export const getCurrLocation = () => {
+  const container = document.createElement("section");
+  container.classList.add("location-container");
+
   return navigator.geolocation.getCurrentPosition(async (position) => {
     try {
       const { latitude, longitude } = position.coords;
@@ -72,7 +75,10 @@ export const getCurrLocation = () => {
       card.appendChild(weatherIcon);
       card.appendChild(tempData);
 
-      app.appendChild(card);
+      // solves the issue of the race condition between location and favorites. Location appears on top of the page
+      container.appendChild(card);
+      app.insertBefore(container, app.firstChild);
+      // app.appendChild(card);
     } catch (error) {
       console.error("error:", error);
     }
