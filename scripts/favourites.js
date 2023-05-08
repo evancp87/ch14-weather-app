@@ -21,6 +21,7 @@ export const getFavorites = async () => {
 
     const citiesString = localStorage.getItem("cities");
     const citiesArray = JSON.parse(citiesString);
+    const currentFavoritesLength = citiesArray.length;
 
     // loop over favorites array and for each get the key and make an api call the item from localstorage
 
@@ -43,7 +44,7 @@ export const getFavorites = async () => {
       const card = document.createElement("div");
       card.setAttribute("id", `${city}`);
       // card.setAttribute("class", "card");
-      card.setAttribute("class", "favorite card");
+      card.setAttribute("class", "favorite card dropzone");
 
       const card__text = document.createElement("div");
 
@@ -103,6 +104,17 @@ export const getFavorites = async () => {
         // const cityName = cityName.textContent;
         window.location.href = `forecast.html?city=${cityName.textContent}&lon=${lon}&lat=${lat}&description=${description}&temp=${temp}&humidity=${humidity}&speed=${speed}&visibility=${visibility}`;
       });
+    }
+
+    // TODO: fix this
+    console.log(citiesArray);
+    const newFavoritesArrLength = citiesArray.length;
+
+    if (newFavoritesArrLength > currentFavoritesLength) {
+      const lastCityIndex = citiesArray.length - 1;
+      const lastCity = citiesArray[lastCityIndex];
+      const el = document.getElementById(lastCity);
+      el.scrollIntoView({ behavior: "smooth" });
     }
   } catch (error) {
     console.error("error", error);
