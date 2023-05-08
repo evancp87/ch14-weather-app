@@ -6,11 +6,12 @@ let results;
 
 export const loadForm = () => {
   const formContainer = document.createElement("header");
-  formContainer.innerHTML = ` <form id="search-form" >
+  // TODO: add labels
+  formContainer.innerHTML = ` 
+  <form id="search-form" >
                <div>
-                   <img src="./images/research.png" class="search-icon" alt="search icon">
-                   <input id="city-search" type="text">
-                   <button type="submit"></button>
+                   <input id="city-search" type="text" class="search-input">
+                   <button class="search-btn"type="submit">Search</button>
    
                </div>
            </form>`;
@@ -18,9 +19,16 @@ export const loadForm = () => {
   // lifting the scope
   results = document.createElement("div");
   results.setAttribute("id", "results");
+  results.setAttribute("class", "search-results");
 
   search.appendChild(formContainer);
   search.appendChild(results);
+
+  const input = document.getElementById("#city-search");
+  // TODO
+  // input.addEventListener("focus", focusInput());
+  // input.addEventListener("blur", blurInput());
+
   const searchForm = document.getElementById("search-form");
 
   // Add event listener to the search form
@@ -81,7 +89,8 @@ const searchHandler = async (e) => {
       });
       // creates weather card
       const tempData = document.createElement("p");
-      tempData.textContent = temp;
+      const celsius = Math.round(temp - 273.15) + "°C";
+      tempData.textContent = celsius;
       cardText.appendChild(cityName);
       cardText.appendChild(currWeather);
       card.appendChild(cardText);
@@ -99,3 +108,11 @@ const searchHandler = async (e) => {
 window.addEventListener("load", () => {
   loadForm();
 });
+
+// const focusInput = () => {
+//   input.style.border = "2px solid blue";
+// };
+
+// blurInput = () => {
+//   input.style.border = "";
+// };

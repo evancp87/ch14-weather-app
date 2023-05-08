@@ -45,7 +45,8 @@ export const getFavorites = async () => {
       const currWeather = document.createElement("p");
       currWeather.textContent = description;
       const tempData = document.createElement("p");
-      tempData.textContent = temp;
+      const celsius = Math.round(temp - 273.15) + "°C";
+      tempData.textContent = celsius;
       card__text.appendChild(cityName);
       // card__text.appendChild(form);
       card__text.appendChild(currWeather);
