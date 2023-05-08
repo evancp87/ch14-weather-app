@@ -1,48 +1,48 @@
-// example 2
-function createWeatherCard(data) {
-  const {
-    timezone,
-    current: {
-      temp,
-      weather: [{ main, icon }],
-    },
-  } = data;
+// // example 2
+// function createWeatherCard(data) {
+//   const {
+//     timezone,
+//     current: {
+//       temp,
+//       weather: [{ main, icon }],
+//     },
+//   } = data;
 
-  const elements = [
-    {
-      type: "div",
-      class: "card",
-      children: [
-        {
-          type: "div",
-          class: "card__text",
-          children: [
-            { type: "p", textContent: "Current" },
-            { type: "h2", textContent: timezone },
-            { type: "p", textContent: main },
-          ],
-        },
-        {
-          type: "img",
-          class: "weather-icon",
-          attributes: [
-            {
-              name: "src",
-              value: `https://openweathermap.org/img/w/${icon}.png`,
-            },
-          ],
-        },
-        { type: "p", textContent: `${Math.round(temp - 273.15)}°C` },
-      ],
-    },
-  ];
+//   const elements = [
+//     {
+//       type: "div",
+//       class: "card",
+//       children: [
+//         {
+//           type: "div",
+//           class: "card__text",
+//           children: [
+//             { type: "p", textContent: "Current" },
+//             { type: "h2", textContent: timezone },
+//             { type: "p", textContent: main },
+//           ],
+//         },
+//         {
+//           type: "img",
+//           class: "weather-icon",
+//           attributes: [
+//             {
+//               name: "src",
+//               value: `https://openweathermap.org/img/w/${icon}.png`,
+//             },
+//           ],
+//         },
+//         { type: "p", textContent: `${Math.round(temp - 273.15)}°C` },
+//       ],
+//     },
+//   ];
 
-  const card = createElementFromObject(elements[0]);
+//   const card = createElementFromObject(elements[0]);
 
-  app.appendChild(card);
-}
+//   app.appendChild(card);
+// }
 
-function createElementFromObject({
+export default function createWeatherCard({
   type,
   textContent,
   class: className,
@@ -64,7 +64,7 @@ function createElementFromObject({
   });
 
   children.forEach((child) => {
-    element.appendChild(createElementFromObject(child));
+    element.appendChild(createWeatherCard(child));
   });
 
   return element;
