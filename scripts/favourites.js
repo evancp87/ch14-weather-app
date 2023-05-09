@@ -56,9 +56,11 @@ export const getFavorites = async () => {
 
       // removes the plus button
 
-      const removeButton = document.createElement("button");
+      const removeButton = document.createElement("img");
       removeButton.setAttribute("id", "removeBtn");
       removeButton.setAttribute("class", "remove-btn");
+      removeButton.setAttribute("src", "../images/minus.png");
+      removeButton.setAttribute("alt", "minus icon");
 
       card.appendChild(removeButton);
       favoritesSection.appendChild(card);

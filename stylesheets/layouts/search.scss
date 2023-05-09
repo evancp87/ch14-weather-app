@@ -1,0 +1,28 @@
+@use "../abstracts/" as *;
+
+.search {
+  @include flexbox-config($flex-direction: column, $justify-content: center);
+
+  .search__section {
+    @include flexbox-config(
+      $flex-direction: column,
+      $align-items: center,
+      //   $justify-content: center
+    );
+    .search-input {
+      background-image: url("../../images/research.png");
+      background-repeat: no-repeat;
+      background-size: 20px 20px; /* size of the image */
+      background-position: 50px start;
+
+      border-radius: 10px;
+
+      @include flexbox-config($justify-content: center);
+
+      .search-btn {
+        display: inline-flex;
+        border-radius: 10px;
+      }
+    }
+  }
+}
