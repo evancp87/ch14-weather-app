@@ -27,6 +27,22 @@ navigator.geolocation.getCurrentPosition(
 export const getCurrLocation = () => {
   const container = document.createElement("section");
   container.classList.add("location-container");
+  const cardHeading = document.createElement("h2");
+  cardHeading.classList.add("card__heading");
+  cardHeading.innerText = "Current Location";
+  container.appendChild(cardHeading);
+
+  const searchItem = `<div class="landing-page__search-blurb">
+                <p>Good morning! Discover the weather</p>
+                <div class="landing-page__search-input">
+                    <a href="./search.html">
+                        <img src="./images/research.png" alt="search icon" class="search-icon">
+                    </a>
+                </div>
+
+            </div>`;
+
+  container.innerHTML = searchItem;
 
   return navigator.geolocation.getCurrentPosition(async (position) => {
     try {
@@ -48,7 +64,8 @@ export const getCurrLocation = () => {
       // Display the weather information on the webpage
       const card = document.createElement("div");
       card.classList.add("card");
-      const card__text = document.createElement("div");
+
+      const cardText = document.createElement("div");
       const currLocation = document.createElement("p");
       currLocation.textContent = "Current";
       const cityName = document.createElement("h2");
@@ -69,9 +86,9 @@ export const getCurrLocation = () => {
       const tempData = document.createElement("p");
       const celsius = Math.round(temp - 273.15) + "°C";
       tempData.textContent = celsius;
-      card__text.appendChild(cityName);
-      card__text.appendChild(currWeather);
-      card.appendChild(card__text);
+      cardText.appendChild(cityName);
+      cardText.appendChild(currWeather);
+      card.appendChild(cardText);
       card.appendChild(weatherIcon);
       card.appendChild(tempData);
 
