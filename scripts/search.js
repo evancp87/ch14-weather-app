@@ -5,16 +5,16 @@ let weatherData;
 let results;
 
 export const loadForm = () => {
-  const formContainer = document.createElement("header");
+  const formContainer = document.createElement("form");
+  formContainer.setAttribute("id", "search-form");
+  formContainer.setAttribute("class", "search-form");
+
   // TODO: add labels
   formContainer.innerHTML = ` 
-  <form id="search-form" >
-               <div>
                    <input id="city-search" type="text" class="search-input">
                    <button class="search-btn"type="submit">Search</button>
    
-               </div>
-           </form>`;
+          `;
 
   // lifting the scope
   results = document.createElement("div");
@@ -24,15 +24,15 @@ export const loadForm = () => {
   search.appendChild(formContainer);
   search.appendChild(results);
 
-  const input = document.getElementById("#city-search");
-  // TODO
-  // input.addEventListener("focus", focusInput());
-  // input.addEventListener("blur", blurInput());
-
   const searchForm = document.getElementById("search-form");
 
   // Add event listener to the search form
   searchForm.addEventListener("submit", searchHandler);
+
+  const input = document.getElementById("city-search");
+  // TODO
+  // input.addEventListener("focus", focusInput());
+  // input.addEventListener("blur", blurInput());
 };
 
 // handles searching and display results on submit
@@ -109,10 +109,11 @@ window.addEventListener("load", () => {
   loadForm();
 });
 
-// const focusInput = () => {
-//   input.style.border = "2px solid blue";
-// };
+const focusInput = () => {
+  input.style.border = "2px solid blue";
+  input.style.backgroundImage = "";
+};
 
-// blurInput = () => {
-//   input.style.border = "";
-// };
+const blurInput = () => {
+  input.style.border = "";
+};
