@@ -2,7 +2,7 @@
 // import { key } from "./index";
 
 import apiKey from "../apiKey.js";
-import createWeatherCard from "./helpers.js";
+// import createWeatherCard from "./helpers.js";
 
 const app = document.getElementById("root");
 
@@ -15,6 +15,10 @@ export const getFavorites = async () => {
 
     const favoritesSection = document.createElement("section");
     favoritesSection.setAttribute("class", "favorites");
+    const cardHeading = document.createElement("h2");
+    cardHeading.classList.add("card__heading");
+    cardHeading.innerText = "Favorites";
+    favoritesSection.appendChild(cardHeading);
     app.appendChild(favoritesSection);
 
     // loop over favorites array and for each get the key and make an api call the item from localstorage
@@ -36,23 +40,43 @@ export const getFavorites = async () => {
       card.setAttribute("id", `${city}`);
       // card.setAttribute("class", "card");
       card.setAttribute("class", "favorite card dropzone");
+      card.setAttribute("class", "favorite card dropzone");
 
-      const card__text = document.createElement("div");
+      const cardText = document.createElement("div");
+      cardText.setAttribute("class", "card__text");
 
       const cityName = document.createElement("h2");
       cityName.textContent = name;
 
+      const cardContainer = document.createElement("div");
+      cardContainer.setAttribute("class", "card__container");
+
       const currWeather = document.createElement("p");
       currWeather.textContent = description;
+
+      const iconsContainer = document.createElement("div");
+      iconsContainer.setAttribute("class", "card__icons");
+
       const tempData = document.createElement("p");
       const celsius = Math.round(temp - 273.15) + "°C";
       tempData.textContent = celsius;
-      card__text.appendChild(cityName);
+      const iconImg = document.createElement("img");
+      iconImg.setAttribute(
+        "src",
+        `https://openweathermap.org/img/w/${icon}.png`
+      );
+      iconImg.setAttribute("class", `weather-icon`);
+      iconImg.setAttribute("alt", `${name} weather icon`);
+      cardText.appendChild(cityName);
       // card__text.appendChild(form);
-      card__text.appendChild(currWeather);
-      card.appendChild(card__text);
+      cardText.appendChild(currWeather);
+      card.appendChild(cardContainer);
+
+      cardContainer.appendChild(cardText);
       // card.appendChild(weatherIcon);
-      card.appendChild(tempData);
+      iconsContainer.appendChild(tempData);
+      iconsContainer.appendChild(iconImg);
+      cardContainer.appendChild(iconsContainer);
 
       // removes the plus button
 
@@ -62,7 +86,7 @@ export const getFavorites = async () => {
       removeButton.setAttribute("src", "../images/minus.png");
       removeButton.setAttribute("alt", "minus icon");
 
-      card.appendChild(removeButton);
+      iconsContainer.appendChild(removeButton);
       favoritesSection.appendChild(card);
       // app.appendChild(favoritesSection);
 
@@ -89,7 +113,7 @@ export const getFavorites = async () => {
 
       card.addEventListener("click", () => {
         // const cityName = cityName.textContent;
-        window.location.href = `forecast.html?city=${cityName.textContent}&lon=${lon}&lat=${lat}&description=${description}&temp=${temp}&humidity=${humidity}&speed=${speed}&visibility=${visibility}`;
+        window.location.href = `forecast.html?city=${cityName.textContent}&lon=${lon}&lat=${lat}&description=${description}&temp=${temp}&humidity=${humidity}&speed=${speed}&visibility=${visibility}&icon=${icon}`;
       });
     }
     // app.appendChild(favoritesSection);
@@ -100,9 +124,19 @@ export const getFavorites = async () => {
 
     if (newFavoritesArrLength > currentFavoritesLength) {
       const lastCityIndex = citiesArray.length - 1;
+      console.log("the last city index", lastCityIndex);
       const lastCity = citiesArray[lastCityIndex];
+      console.log("the last city", lastCity);
       const el = document.getElementById(lastCity);
-      el.scrollIntoView({ behavior: "smooth" });
+      console.log("the last city el", el);
+
+      // el.scrollIntoView({ behavior: "smooth" });
+      if (el) {
+        console.log("scrolling to element");
+        el.scrollIntoView({ behavior: "smooth" });
+      } else {
+        console.log("element not found");
+      }
     }
   } catch (error) {
     console.error("error", error);
