@@ -26,3 +26,29 @@
   max-width: 30px;
   height: auto;
 }
+
+.forecast__back-button {
+  display: inline-flex;
+  align-self: flex-start;
+  margin: {
+    block: 1rem;
+    inline: 1rem;
+  }
+  padding: 0.5em;
+  border-radius: 15px;
+  width: 75px;
+  @include flexbox-config($justify-content: center);
+  background: none;
+  border: 1px solid #808080;
+  transition: box-shadow 0.3s ease-in-out;
+
+  &:hover {
+    cursor: pointer;
+    box-shadow: -10px 14px 14px 0px rgba(0, 0, 0, 0.63);
+  }
+}
+
+.remove-btn {
+  max-width: 20px;
+  height: 20px;
+}

@@ -11,26 +11,52 @@
     rgba(219, 227, 222, 1) 100%
   );
 
-  .landing-page-container {
-    @include flexbox-config($flex-direction: column, $align-items: center);
+  .landing-page__header {
+    // @include flexbox-config($justify-content: center);
+    .landing-page__nav {
+      @include flexbox-config(
+        $flex-direction: column,
+        $justify-content: center,
+        $align-items: center
+      );
+      width: 100vw;
+    }
   }
-  .location-container {
-    border-bottom: 1px dashed #000000;
-    margin-block-end: 2rem;
-    padding-block-end: 2rem;
+}
+
+.landing-page__search-blurb {
+  @include flexbox-config(
+    $flex-direction: row,
+    $justify-content: space-between
+  );
+  flex-wrap: wrap;
+  .landing-page__search-input {
   }
-  .location-container,
-  .favorites,
-  .search-results {
-    max-width: 60%;
-    width: 60%;
-  }
+}
+
+.landing-page-container {
+  @include flexbox-config($flex-direction: column, $align-items: center);
+}
+
+.location-container {
+  border-bottom: 2px dashed #000000;
+  margin-block-end: 2rem;
+  padding-block-end: 2rem;
+}
+
+.location-container,
+.favorites,
+.search-results {
+  max-width: 60%;
+  width: 60%;
 }
 
 .favorites {
   .favorite {
     &:last-child {
       margin-block-end: 5rem;
+    }
+    .favorites__text {
     }
   }
 }

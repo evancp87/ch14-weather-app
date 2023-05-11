@@ -378,14 +378,15 @@ body {
   border: none;
   border-radius: 10px;
   height: auto;
-  display: flex;
-  padding: 1rem;
+  padding-inline: 2.4rem;
+  padding-block: 0.5rem;
   background-color: #4799e5;
-  justify-content: space-around;
   margin-block: 1em;
+  transition: box-shadow 0.3s ease-in-out;
 }
 .card:hover {
   cursor: pointer;
+  box-shadow: -10px 14px 14px 0px rgba(0, 0, 0, 0.63);
 }
 
 .weather-icon {
@@ -394,7 +395,45 @@ body {
   display: block;
   align-self: center;
   /*   margin-inline-start: 1em; */
-  margin-block-start: 1.5em;
+}
+
+.card__container {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  padding-block: 1.5rem;
+}
+
+.card__text {
+  grid-template-columns: 1fr;
+  display: grid;
+  grid-template-rows: repeat(2, 1fr);
+}
+.card__text > h2 {
+  grid-row: 1;
+  color: #ffffff;
+  font-size: clamp(1.25rem, 0.714rem + 2.857vw, 2.5rem);
+}
+.card__text > h2 + p {
+  grid-row: 3;
+}
+
+.card__icons {
+  grid-template-columns: 1fr;
+  display: grid;
+  grid-template-rows: repeat(3, 1fr);
+}
+.card__icons > p {
+  grid-row: 1;
+}
+.card__icons > p + .weather-icon {
+  grid-row: 2;
+}
+.card__icons > p + .weather-icon + .remove-btn {
+  grid-row: 4;
+}
+.card__icons > p + .weather-icon + .remove-btn:hover {
+  cursor: pointer;
 }
 
 .exploreBtn {
@@ -421,6 +460,30 @@ body {
   height: auto;
 }
 
+.forecast__back-button {
+  display: inline-flex;
+  align-self: flex-start;
+  margin-block: 1rem;
+  margin-inline: 1rem;
+  padding: 0.5em;
+  border-radius: 15px;
+  width: 75px;
+  display: flex;
+  justify-content: center;
+  background: none;
+  border: 1px solid #808080;
+  transition: box-shadow 0.3s ease-in-out;
+}
+.forecast__back-button:hover {
+  cursor: pointer;
+  box-shadow: -10px 14px 14px 0px rgba(0, 0, 0, 0.63);
+}
+
+.remove-btn {
+  max-width: 20px;
+  height: 20px;
+}
+
 .container {
   display: flex;
   justify-content: center;
@@ -428,29 +491,124 @@ body {
   align-items: center;
 }
 
+.forecast {
+  --default-bg: linear-gradient(
+    90deg,
+    rgba(28, 31, 31, 1) 0%,
+    rgba(238, 238, 238, 0.8646052170868348) 0%,
+    rgba(107, 191, 219, 1) 0%,
+    rgba(219, 227, 222, 1) 100%
+  );
+  --sunny: #FFF04D
+  --rain: #0D4EFF;
+  background: var(--default-bg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.forecast .forecast__weather-today {
+  margin-block-start: 2rem;
+  display: contents;
+  color: #000000;
+}
+.forecast .forecast__weather-today .forecast__date {
+  border: 1px solid currentColor;
+  border-radius: 20px;
+  padding-block: 0.5em;
+  padding-inline: 0.7em;
+  margin-block: 1em;
+  color: grey;
+  background-color: #000000;
+}
+.forecast .forecast__description {
+  margin-block-start: 2em;
+}
+.forecast .forecast__temp {
+  font-size: 80px;
+  font-weight: 500;
+  margin-block: 0.5em;
+}
+
+.forecast__back-btn {
+  align-self: flex-start;
+  margin-block: 2em;
+}
+
+.forecast__daily-summary {
+  display: flex;
+  justify-content: space-between;
+  padding: 1em;
+  margin-block-end: 2em;
+  border: 1px solid #000000;
+  border-radius: 20px;
+  color: white;
+  background: #000000;
+}
+.forecast__daily-summary .forecast__daily-summary-item {
+  padding: 2em;
+}
+
+.forecast__list {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-block: 1em;
+  width: 100vw;
+  flex-wrap: wrap;
+  gap: 0.5em;
+  font-size: 12px;
+}
+.forecast__list .forecast__list-item {
+  padding-block: 2.5em;
+  padding-inline: 0.5em;
+  border: 1px solid #808080;
+  border-radius: 20px;
+  background-color: transparent;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.forecast__daily-summary-weather-icon {
+  aspect-ratio: 5/6;
+  width: 100px;
+}
+
 .landing-page,
 .search {
   background: #dbe3de;
   background: linear-gradient(90deg, #1c1f1f 0%, rgba(238, 238, 238, 0.8646052171) 0%, #6bbfdb 0%, #dbe3de 100%);
 }
-.landing-page .landing-page-container,
-.search .landing-page-container {
+.landing-page .landing-page__header .landing-page__nav,
+.search .landing-page__header .landing-page__nav {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  width: 100vw;
+}
+
+.landing-page__search-blurb {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+.landing-page-container {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
-.landing-page .location-container,
-.search .location-container {
-  border-bottom: 1px dashed #000000;
+
+.location-container {
+  border-bottom: 2px dashed #000000;
   margin-block-end: 2rem;
   padding-block-end: 2rem;
 }
-.landing-page .location-container,
-.landing-page .favorites,
-.landing-page .search-results,
-.search .location-container,
-.search .favorites,
-.search .search-results {
+
+.location-container,
+.favorites,
+.search-results {
   max-width: 60%;
   width: 60%;
 }
@@ -458,7 +616,6 @@ body {
 .favorites .favorite:last-child {
   margin-block-end: 5rem;
 }
-
 .search {
   display: flex;
   justify-content: center;
@@ -466,22 +623,41 @@ body {
 }
 .search .search__section {
   display: flex;
+  justify-content: center;
   flex-direction: column;
   align-items: center;
+  min-height: 100vh;
 }
-.search .search__section .search-input {
+
+.search-form {
+  display: flex;
+  width: clamp(12.5rem, 4.464rem + 42.857vw, 31.25rem);
+}
+.search-form .search-input {
   background-image: url("../../images/research.png");
   background-repeat: no-repeat;
   background-size: 20px 20px;
   /* size of the image */
   background-position: 50px start;
-  border-radius: 10px;
+  border-radius: 20px;
+  margin-inline-end: 0.4em;
+  padding: 0.5em;
+  flex: 0 1 100%;
   display: flex;
   justify-content: center;
 }
-.search .search__section .search-input .search-btn {
+.search-form .search-input + .search-btn {
   display: inline-flex;
   border-radius: 10px;
+  background-color: #db876b;
+  color: #ffffff;
+  justify-content: center;
+  padding: 0.5em;
+  flex: 0 3 100%;
+  flex-wrap: wrap;
+}
+.search-form .search-input + .search-btn:hover {
+  cursor: pointer;
 }
 
 /*# sourceMappingURL=style.css.map */

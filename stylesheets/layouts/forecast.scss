@@ -1,4 +1,4 @@
-@use '../abstracts/' as *;
+@use "../abstracts/" as *;
 
 .container {
   @include flexbox-config(
@@ -6,4 +6,84 @@
     $align-items: center,
     $justify-content: center
   );
+}
+
+.forecast {
+  --default-bg: linear-gradient(
+    90deg,
+    rgba(28, 31, 31, 1) 0%,
+    rgba(238, 238, 238, 0.8646052170868348) 0%,
+    rgba(107, 191, 219, 1) 0%,
+    rgba(219, 227, 222, 1) 100%
+  );
+  --sunny: #FFF04D
+  --rain: #0D4EFF;
+  background: var(--default-bg);
+  @include flexbox-config($flex-direction: column, $align-items: center);
+  .forecast__weather-today {
+    margin-block-start: 2rem;
+    display: contents;
+    color: #000000;
+
+    .forecast__date {
+      border: 1px solid currentColor;
+      border-radius: 20px;
+      padding: {
+        block: 0.5em;
+        inline: 0.7em;
+      }
+      margin-block: 1em;
+      color: grey;
+      background-color: #000000;
+    }
+  }
+  .forecast__description {
+    margin-block-start: 2em;
+  }
+
+  .forecast__temp {
+    font-size: 80px;
+    font-weight: 500;
+    margin-block: 0.5em;
+  }
+}
+
+.forecast__back-btn {
+  align-self: flex-start;
+  margin-block: 2em;
+}
+
+.forecast__daily-summary {
+  @include flexbox-config($justify-content: space-between);
+  padding: 1em;
+  margin-block-end: 2em;
+  border: 1px solid #000000;
+  border-radius: 20px;
+  color: white;
+  background: #000000;
+  .forecast__daily-summary-item {
+    padding: 2em;
+  }
+}
+
+.forecast__list {
+  @include flexbox-config($justify-content: center, $align-items: center);
+  margin-block: 1em;
+  width: 100vw;
+  flex-wrap: wrap;
+  gap: 0.5em;
+  font-size: 12px;
+  .forecast__list-item {
+    padding: {block: 2.5em;
+    inline: 0.5em;}
+    border: 1px solid #808080;
+    border-radius: 20px;
+    background-color: transparent;
+    @include flexbox-config($flex-direction: column, $align-items: center);
+  }
+}
+
+.forecast__daily-summary-weather-icon {
+  aspect-ratio: 5/6;
+  width: 100px;
 }

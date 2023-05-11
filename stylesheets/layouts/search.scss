@@ -7,21 +7,42 @@
     @include flexbox-config(
       $flex-direction: column,
       $align-items: center,
-      //   $justify-content: center
+      $justify-content: center
     );
-    .search-input {
-      background-image: url("../../images/research.png");
-      background-repeat: no-repeat;
-      background-size: 20px 20px; /* size of the image */
-      background-position: 50px start;
 
+    min-height: 100vh;
+  }
+}
+.search-form {
+  display: flex;
+  width: clamp(12.5rem, 4.464rem + 42.857vw, 31.25rem);
+
+  .search-input {
+    background: {
+      image: url("../../images/research.png");
+      repeat: no-repeat;
+      size: 20px 20px; /* size of the image */
+      position: 50px start;
+    }
+    border-radius: 20px;
+    margin-inline-end: 0.4em;
+
+    padding: 0.5em;
+    flex: 0 1 100%;
+    @include flexbox-config($justify-content: center);
+
+    + .search-btn {
+      display: inline-flex;
       border-radius: 10px;
+      background-color: #db876b;
+      color: #ffffff;
+      justify-content: center;
+      padding: 0.5em;
+      flex: 0 3 100%;
+      flex-wrap: wrap;
 
-      @include flexbox-config($justify-content: center);
-
-      .search-btn {
-        display: inline-flex;
-        border-radius: 10px;
+      &:hover {
+        cursor: pointer;
       }
     }
   }
