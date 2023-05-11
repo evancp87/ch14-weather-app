@@ -7,16 +7,16 @@ export const loadForecastCity = async () => {
   const lon = params.get("lon");
   const lat = params.get("lat");
   const temp = params.get("temp");
+  const icon = params.get("icon");
   const description = params.get("description");
   const windSpeed = params.get("speed");
   const humidity = params.get("humidity");
   const visibility = params.get("visibility");
 
-  //   TODO: put icons in
   const weatherData = [
-    { name: "Wind", value: windSpeed },
-    { name: "Humidity", value: humidity },
-    { name: "visibility", value: visibility },
+    { name: "Wind", value: windSpeed, icon: icon },
+    { name: "Humidity", value: humidity, icon: icon },
+    { name: "visibility", value: visibility, icon: icon },
   ];
 
   const forecastContainer = document.getElementById("forecast");
@@ -24,7 +24,7 @@ export const loadForecastCity = async () => {
   backBtn.setAttribute("class", "forecast__back-button btn");
   const back = `
   
-<a href="index.html">
+<a href="index.html">Back </a>
 
   `;
   backBtn.innerHTML = back;
@@ -32,12 +32,13 @@ export const loadForecastCity = async () => {
   const weatherToday = document.createElement("section");
   weatherToday.setAttribute("class", "forecast__weather-today");
   const date = new Date();
+  const celsius = Math.round(temp - 273.15) + "°C";
 
   const cityDayWeather = `
-  <h2>${cityName}</h2>
-  <p>${date} </p>
-  <p>${description} </p>
-  <p>${temp} </p>`;
+  <h2 >${cityName}</h2>
+  <p class="forecast__date">${date} </p>
+  <p class="forecast__description">${description} </p>
+  <p class="forecast__temp">${celsius} </p>`;
 
   const dailySummary = document.createElement("section");
   dailySummary.setAttribute("class", "forecast__daily-summary");
@@ -75,9 +76,12 @@ export const loadForecastCity = async () => {
     const fourDayWeather = forecastArr
       .map((weather) => {
         const { description, date, icon } = weather;
+        const timezone = new Date().getTimezoneOffset();
+        const timezoneOffsetMillis = timezone * 60 * 1000;
+        const localDate = new Date((date + timezoneOffsetMillis) * 1000);
         return `
       <div class="forecast__list-item">
-      <h3>${new Date(date * 1000)}</h3>
+      <h3>${localDate.toLocaleString()}</h3>
       <p>${description}</p> 
       <img src="https://openweathermap.org/img/w/${icon}.png" alt="weather icon" class="forecast__daily-summary-weather-icon">
 
