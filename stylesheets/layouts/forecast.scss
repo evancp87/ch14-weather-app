@@ -1,14 +1,6 @@
 @use "../abstracts/" as *;
 
-.container {
-  @include flexbox-config(
-    $flex-direction: column,
-    $align-items: center,
-    $justify-content: center
-  );
-}
-
-.forecast {
+:root {
   --default-bg: linear-gradient(
     90deg,
     rgba(28, 31, 31, 1) 0%,
@@ -16,9 +8,17 @@
     rgba(107, 191, 219, 1) 0%,
     rgba(219, 227, 222, 1) 100%
   );
-  --sunny: #FFF04D
-  --rain: #0D4EFF;
+  --sunny: #fff04d;
+  --rain: #0d4eff;
+  --clouds: #cbd0d4;
+  --snow: #fffaf7;
+}
+
+.forecast-body {
   background: var(--default-bg);
+  background-image: var(--default-bg);
+}
+.forecast {
   @include flexbox-config($flex-direction: column, $align-items: center);
   .forecast__weather-today {
     margin-block-start: 2rem;
@@ -74,8 +74,10 @@
   gap: 0.5em;
   font-size: 12px;
   .forecast__list-item {
-    padding: {block: 2.5em;
-    inline: 0.5em;}
+    padding: {
+      block: 2.5em;
+      inline: 0.5em;
+    }
     border: 1px solid #808080;
     border-radius: 20px;
     background-color: transparent;

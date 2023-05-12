@@ -1,5 +1,6 @@
 // forecastContainer.appendChild(forecastItem);
 import apiKey from "../apiKey.js";
+import { forecastDynamicBackground } from "./utils.js";
 
 export const loadForecastCity = async () => {
   const params = new URLSearchParams(window.location.search);
@@ -37,7 +38,7 @@ export const loadForecastCity = async () => {
   const cityDayWeather = `
   <h2 >${cityName}</h2>
   <p class="forecast__date">${date} </p>
-  <p class="forecast__description">${description} </p>
+  <p class="forecast__description" id="description">${description} </p>
   <p class="forecast__temp">${celsius} </p>`;
 
   const dailySummary = document.createElement("section");
@@ -93,6 +94,7 @@ export const loadForecastCity = async () => {
 
     forecastList.innerHTML = fourDayWeather;
     forecastContainer.appendChild(forecastList);
+    forecastDynamicBackground(document.getElementById("description"));
   } catch (error) {
     console.error("Error:", error);
   }
