@@ -24,12 +24,10 @@ export const createWeatherCardElement = (
       });
     }
   }
-  // document.getElementById(id).append(element);
   return element;
 };
 
 export const appendCardEl = (child, domRef) => {
-  // const parentEl = document.querySelector(`.${domRef[value]}`);
   domRef.append(child);
 };
 
@@ -84,7 +82,7 @@ export const linkToForecast = (
   });
 };
 
-export const createWeatherCard = (weatherApiData, favoritesSection) => {
+export const createWeatherCard = (weatherApiData, favorites) => {
   if (weatherApiData) {
     const card = createWeatherCardElement(
       [
@@ -151,7 +149,8 @@ export const createWeatherCard = (weatherApiData, favoritesSection) => {
     appendCardElements([cardText, iconsContainer], cardContainer);
     // appendCardEl(iconsContainer, cardContainer);
     appendCardEl(cardContainer, card);
-    appendCardEl(card, favoritesSection);
+    appendCardEl(card, favorites);
+    return { card, iconsContainer };
   }
 };
 
@@ -173,7 +172,12 @@ export const removeFavorite = (e, card, city) => {
   card.remove();
 };
 
-export const attachRemoveListener = (removeButton, card, city) => {
+export const attachRemoveListener = (
+  removeButton,
+  card,
+  city,
+  iconsContainer
+) => {
   appendCardEl(removeButton, iconsContainer);
   removeButton.addEventListener("click", (e) => {
     removeFavorite(e, card, city);
@@ -205,38 +209,32 @@ export const attachCardClickListener = (card, weatherApiData) => {
 
 // link to forecasts
 
-// const forecastDynamicBackground = (weather) => {
-// const body = document.getElementById("forecastBody");
+export const forecastDynamicBackground = (weatherDescription) => {
+  // const body = document.querySelector(".forecast-body");
+  const body = document.getElementById("forecastBody");
 
-// // switch (true) {
-// // case weather.includes("rain"):
-// //   case "Clear":
-// //     return "#FFE873";
-// //   case "Clouds":
-// //     return "#C7C7CC";
-// //   case "Drizzle":
-// //   case "Rain":
-// //   case "Thunderstorm":
-// //     return "#4B4B4C";
-// //   case "Snow":
-// //     return "#D4F2FF";
-// //   case "Mist":
-// //   case "Smoke":
-// //   case "Haze":
-// //   case "Dust":
-// //   case "Fog":
-// //   case "Sand":
-// //   case "Ash":
-// //     return "#A7A9AC";
-// //   case "Squall":
-// //   case "Tornado":
-// //     return "#4B4B4C";
-// //   default:
-// //     return "#FFFFFF";
-
-// // default: --bgcolor
-
-// // // .style.setProperty
-// // }
-
-// // }
+  switch (weatherDescription.innerText) {
+    case "clear sky":
+    case "haze":
+      body.style.setProperty("background", "var(--sunny)");
+      break;
+    case "few clouds":
+    case "scattered clouds":
+    case "broken clouds":
+    case "overcast clouds":
+      body.style.setProperty("background", "var(--clouds)");
+      break;
+    case "shower rain":
+    case "rain":
+    case "thunderstorm":
+    case "mist":
+      body.style.setProperty("background", "var(--rain)");
+      break;
+    case "snow":
+      body.style.setProperty("background", "var(--snow)");
+      break;
+    default:
+      body.style.setProperty("background", "var(--default-bg)");
+      break;
+  }
+};

@@ -1,15 +1,9 @@
-// api.openweathermap.org/data/2.5/group?id=5128581,2643743&appid=019aa13e7aea9636052366f2137954d9
-// import { key } from "./index";
-
 import apiKey from "../apiKey.js";
 import {
   createWeatherCardElement,
   createWeatherCard,
   appendCardEl,
-  appendCardElements,
   apiCall,
-  linkToForecast,
-  // removeFavorite,
   attachRemoveListener,
   attachCardClickListener,
 } from "./utils.js";
@@ -28,7 +22,6 @@ export const getFavorites = async () => {
       "section"
     );
     const headingArr = [
-      // createWeatherCardElement([{ name: "class", value: "favorites" }], "section"),
       createWeatherCardElement(
         [{ name: "class", value: "card__heading" }],
         "h2",
@@ -45,76 +38,10 @@ export const getFavorites = async () => {
       console.log("the city is:", city);
 
       const weatherApiData = await apiCall(city, apiKey);
-      createWeatherCard(weatherApiData, favoritesSection);
-      // if (weatherApiData) {
-      //   const card = createWeatherCardElement(
-      //     [
-      //       { name: "id", value: "`${city}`" },
-      //       { name: "class", value: "favorite card dropzone" },
-      //     ],
-      //     "div"
-      //   );
-      //   const cardText = createWeatherCardElement(
-      //     [{ name: "class", value: "card__text" }],
-      //     "div"
-      //   );
-
-      //   const weatherCardElArr = [
-      //     createWeatherCardElement(
-      //       [{ name: "class", value: "card__heading" }],
-      //       "h2",
-      //       weatherApiData.name
-      //     ),
-      //     createWeatherCardElement(
-      //       [{ name: "class", value: "card__current-weather" }],
-      //       "p",
-      //       weatherApiData.description
-      //     ),
-      //   ];
-      //   appendCardElements(weatherCardElArr, cardText);
-
-      //   // **
-      //   const celsius = Math.round(weatherApiData.temp - 273.15) + "°C";
-      //   const iconsContainer = createWeatherCardElement(
-      //     [{ name: "class", value: "card__icons" }],
-      //     "div"
-      //   );
-
-      //   const weatherData = [
-      //     createWeatherCardElement(
-      //       [
-      //         {
-      //           name: "src",
-      //           value: `https://openweathermap.org/img/w/${weatherApiData.icon}.png`,
-      //         },
-      //         { name: "class", value: "weather-icon" },
-      //         { name: "alt", value: `${weatherApiData.name} weather icon` },
-      //       ],
-      //       "img"
-      //     ),
-
-      //     createWeatherCardElement(
-      //       [{ name: "class", value: "card__temp" }],
-      //       "p",
-      //       celsius
-      //     ),
-      //   ];
-
-      //   appendCardElements(weatherData, iconsContainer);
-
-      //   const cardContainer = createWeatherCardElement(
-      //     [{ name: "class", value: "card__container" }],
-      //     "div"
-      //   );
-
-      //   // card.appendChild(cardContainer);
-      //   appendCardElements([cardText, iconsContainer], cardContainer);
-      //   // appendCardEl(iconsContainer, cardContainer);
-      //   appendCardEl(cardContainer, card);
-
-      // cardContainer.append(cardText, iconsContainer);
-
-      // appendCardElements(cardContainer, favoritesSection);
+      const { card, iconsContainer } = createWeatherCard(
+        weatherApiData,
+        favoritesSection
+      );
 
       const removeButton = createWeatherCardElement(
         [
@@ -126,34 +53,9 @@ export const getFavorites = async () => {
         "img"
       );
 
-      // appendCardEl(removeButton, iconsContainer);
-      // appendCardEl(card, favoritesSection);
-
-      // removeFavorite(e, card, city);
-
-      // removeButton.addEventListener("click", removeFavorite);
-
-      attachRemoveListener(removeButton, card, city);
+      attachRemoveListener(removeButton, card, city, iconsContainer);
       attachCardClickListener(card, weatherApiData);
-
-      // card.addEventListener("click", () => {
-      //   // const cityName = cityName.textContent;
-      //   linkToForecast(
-      //     card,
-      //     weatherApiData.name,
-      //     weatherApiData.lon,
-      //     weatherApiData.lat,
-      //     weatherApiData.description,
-      //     weatherApiData.temp,
-      //     weatherApiData.humidity,
-      //     weatherApiData.speed,
-      //     weatherApiData.visibility,
-      //     weatherApiData.icon
-      //   );
-      //   // window.location.href = `forecast.html?city=${name}&lon=${lon}&lat=${lat}&description=${description}&temp=${temp}&humidity=${humidity}&speed=${speed}&visibility=${visibility}&icon=${icon}`;
-      // });
     }
-    // app.appendChild(favoritesSection);
 
     // TODO: fix this
     console.log(citiesArray);
@@ -180,5 +82,3 @@ export const getFavorites = async () => {
     console.error("error", error);
   }
 };
-
-// window.addEventListener("load", getFavorites);
