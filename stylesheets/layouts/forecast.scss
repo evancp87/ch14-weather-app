@@ -63,6 +63,7 @@
   background: #000000;
   .forecast__daily-summary-item {
     padding: 2em;
+    @include flexbox-config($flex-direction: column, $align-items: center);
   }
 }
 

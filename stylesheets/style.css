@@ -423,17 +423,8 @@ body {
   display: grid;
   grid-template-rows: repeat(3, 1fr);
 }
-.card__icons > p {
+.card__icons .card__temp {
   grid-row: 1;
-}
-.card__icons > p + .weather-icon {
-  grid-row: 2;
-}
-.card__icons > p + .weather-icon + .remove-btn {
-  grid-row: 4;
-}
-.card__icons > p + .weather-icon + .remove-btn:hover {
-  cursor: pointer;
 }
 
 .exploreBtn {
@@ -482,6 +473,7 @@ body {
 .remove-btn {
   max-width: 20px;
   height: 20px;
+  grid-row: 4;
 }
 
 :root {
@@ -548,6 +540,9 @@ body {
 }
 .forecast__daily-summary .forecast__daily-summary-item {
   padding: 2em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .forecast__list {
@@ -640,7 +635,7 @@ body {
   background-repeat: no-repeat;
   background-size: 20px 20px;
   /* size of the image */
-  background-position: 50px start;
+  background-position: 10px;
   border-radius: 20px;
   margin-inline-end: 0.4em;
   padding: 0.5em;
