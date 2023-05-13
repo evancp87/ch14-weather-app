@@ -1,119 +1,133 @@
 import apiKey from "../apiKey.js";
+import {
+  createWeatherCardElement,
+  createWeatherCard,
+  apiCall,
+  attachCardClickListener,
+  attachAddFavoriteListener,
+  appendCardElements,
+} from "./utils.js";
 
 const search = document.getElementById("search-section");
 let weatherData;
 let results;
+let input;
 
 export const loadForm = () => {
-  const formContainer = document.createElement("form");
-  formContainer.setAttribute("id", "search-form");
-  formContainer.setAttribute("class", "search-form");
+  const formContainer = createWeatherCardElement(
+    [
+      { name: "id", value: "searchForm" },
+      { name: "class", value: "search-form" },
+    ],
+    "form"
+  );
+
+  const searchInput = createWeatherCardElement(
+    [{ name: "id", value: "citySearch", name: "class", value: "search-input" }],
+    "input"
+  );
+
+  const inputBtn = createWeatherCardElement(
+    [{ name: "class", value: "search-btn" }],
+    "input"
+  );
+
+  appendCardElements([searchInput, inputBtn], formContainer);
 
   // TODO: add labels
   formContainer.innerHTML = ` 
-                   <input id="city-search" type="text" class="search-input">
+                   <input id="citySearch" type="text" class="search-input">
                    <button class="search-btn"type="submit">Search</button>
    
           `;
 
+  results = createWeatherCardElement(
+    [
+      { name: "id", value: "results" },
+      { name: "class", value: "search-results" },
+    ],
+    "div"
+  );
   // lifting the scope
-  results = document.createElement("div");
-  results.setAttribute("id", "results");
-  results.setAttribute("class", "search-results");
+
+  appendCardElements([formContainer, results], search);
 
   search.appendChild(formContainer);
   search.appendChild(results);
 
-  const searchForm = document.getElementById("search-form");
+  const searchForm = document.getElementById("searchForm");
 
   // Add event listener to the search form
   searchForm.addEventListener("submit", searchHandler);
 
-  const input = document.getElementById("city-search");
+  input = document.getElementById("citySearch");
   // TODO
-  // input.addEventListener("focus", focusInput());
-  // input.addEventListener("blur", blurInput());
+  input.addEventListener("focus", focusInput);
+  input.addEventListener("blur", blurInput);
 };
 
 // handles searching and display results on submit
 const searchHandler = async (e) => {
   e.preventDefault();
   try {
-    let city = document.getElementById("city-search").value.trim();
+    let city = document.getElementById("citySearch").value.trim();
     console.log(city);
-    const { data } = await axios.get(
-      `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}`
-    );
 
-    weatherData = data;
+    weatherData = await apiCall(city, apiKey);
+
     console.log("the data is:", weatherData);
     const results = document.getElementById("results");
-    const {
-      name,
-      weather: { main, description, icon },
-      main: { temp },
-    } = weatherData;
 
     // disallows duplicate searches if currently the city displayed
     const alreadyAdded = Array.from(results.children).some((child) => {
       return child.querySelector("h2").textContent === name;
     });
 
+    // Display the weather information on the webpage
+
     if (!alreadyAdded) {
       // removes previous search result and replaces with new city each submission
       results.innerHTML = "";
-      const card = document.createElement("div");
-      card.classList.add("card");
 
-      const cardText = document.createElement("div");
+      const { card, iconsContainer } = createWeatherCard(weatherData, results);
 
-      const cityName = document.createElement("h2");
-      cityName.textContent = name;
-
-      const currWeather = document.createElement("p");
-      currWeather.textContent = description;
-
-      const plusIcon = document.createElement("img");
-      plusIcon.setAttribute("src", "./images/plus.png");
-      plusIcon.setAttribute("id", "plus");
-      plusIcon.classList.add("weather-icon");
+      const plusIcon = createWeatherCardElement(
+        [
+          { name: "id", value: "plus" },
+          { name: "src", value: "./images/plus.png" },
+          { name: "class", value: "weather-icon" },
+        ],
+        "img"
+      );
+      // attachAddFavoriteListener(plusIcon, card, city, iconsContainer);
 
       // handles adding a search result as a favorite in local storage
-      plusIcon.addEventListener("click", () => {
-        const existingCities = JSON.parse(localStorage.getItem("cities")) || [];
-        const updatedCities = [...existingCities, name];
-        localStorage.setItem("cities", JSON.stringify(updatedCities));
-        console.log(`City: '${name}' has been added to local storage.`);
-        // redirects to landing page
-        window.location.href = "index.html";
-      });
-      // creates weather card
-      const tempData = document.createElement("p");
-      const celsius = Math.round(temp - 273.15) + "°C";
-      tempData.textContent = celsius;
-      cardText.appendChild(cityName);
-      cardText.appendChild(currWeather);
-      card.appendChild(cardText);
-      card.appendChild(tempData);
-
-      card.appendChild(plusIcon);
-      results.appendChild(card);
-      search.appendChild(results);
+      // plusIcon.addEventListener("click", () => {
+      //   const existingCities = JSON.parse(localStorage.getItem("cities")) || [];
+      //   const updatedCities = [...existingCities, city];
+      //   localStorage.setItem("cities", JSON.stringify(updatedCities));
+      //   console.log(`City: '${city}' has been added to local storage.`);
+      //   // redirects to landing page
+      //   window.location.href = "index.html";
+      // });
+      attachAddFavoriteListener(plusIcon, city, iconsContainer);
+      attachCardClickListener(card, weatherData);
+      // appendCardEl(plusIcon, iconsContainer);
     }
   } catch (error) {
     console.error("error:", error);
   }
 };
 
+const focusInput = (event) => {
+  event.target.style.border = "2px solid blue";
+  event.target.style.backgroundImage = "";
+};
+
+const blurInput = (event) => {
+  event.target.style.border = "";
+};
+
 window.addEventListener("load", () => {
   loadForm();
 });
-
-const focusInput = () => {
-  input.style.border = "2px solid blue";
-  input.style.backgroundImage = "";
-};
-
-const blurInput = () => {
-  input.style.border = "";
-};

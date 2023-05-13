@@ -15,9 +15,9 @@ export const loadForecastCity = async () => {
   const visibility = params.get("visibility");
 
   const weatherData = [
-    { name: "Wind", value: windSpeed, icon: icon },
-    { name: "Humidity", value: humidity, icon: icon },
-    { name: "visibility", value: visibility, icon: icon },
+    { name: "Wind", value: windSpeed, icon: icon, unit: "mph" },
+    { name: "Humidity", value: humidity, icon: icon, unit: "%" },
+    { name: "visibility", value: visibility, icon: icon, unit: "m" },
   ];
 
   const forecastContainer = document.getElementById("forecast");
@@ -44,12 +44,12 @@ export const loadForecastCity = async () => {
   const dailySummary = document.createElement("section");
   dailySummary.setAttribute("class", "forecast__daily-summary");
   const summaryText = weatherData.map((weather) => {
-    const { name, value, icon } = weather;
+    const { name, value, icon, unit } = weather;
 
     return `
     <div class="forecast__daily-summary-item">
     <img src="https://openweathermap.org/img/w/${icon}.png" alt="weather icon" class="forecast__daily-summary-weather-icon">
-      <p>${value}</p>
+      <p>${value} ${unit}</p>
       <h3>${name}</h3>
      </div>`;
   });
@@ -62,13 +62,14 @@ export const loadForecastCity = async () => {
 
   try {
     const { data } = await axios.get(
-      `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}`
+      // `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&cnt=4&appid=${apiKey}`
+      `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=current,minutely,hourly&appid=${apiKey}`
     );
 
-    const { list } = data;
+    const { daily } = data;
     const forecastList = document.createElement("section");
     forecastList.setAttribute("class", "forecast__list");
-    const forecastArr = list.slice(1, 5).map((item) => ({
+    const forecastArr = daily.slice(1, 5).map((item) => ({
       description: item.weather[0].description,
       icon: item.weather[0].icon,
       date: item.dt,

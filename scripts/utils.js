@@ -64,6 +64,34 @@ export const apiCall = async (city, apiKey) => {
   };
 };
 
+export const geolocationApiCall = async (latitude, longitude, apiKey) => {
+  // Make a request to the OpenWeather API
+  const { data } = await axios.get(
+    `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}`
+  );
+
+  const {
+    name,
+    main: { temp, humidity },
+    weather: [{ description, icon }],
+    coord: { lon, lat },
+    wind: { speed },
+    visibility,
+  } = data;
+
+  return {
+    name,
+    temp,
+    description,
+    icon,
+    humidity,
+    lon,
+    lat,
+    speed,
+    visibility,
+  };
+};
+
 export const linkToForecast = (
   elem,
   name,
@@ -82,7 +110,7 @@ export const linkToForecast = (
   });
 };
 
-export const createWeatherCard = (weatherApiData, favorites) => {
+export const createWeatherCard = (weatherApiData, domRef) => {
   if (weatherApiData) {
     const card = createWeatherCardElement(
       [
@@ -149,7 +177,9 @@ export const createWeatherCard = (weatherApiData, favorites) => {
     appendCardElements([cardText, iconsContainer], cardContainer);
     // appendCardEl(iconsContainer, cardContainer);
     appendCardEl(cardContainer, card);
-    appendCardEl(card, favorites);
+    // appendCardEl(card, favorites);
+    appendCardEl(card, domRef);
+
     return { card, iconsContainer };
   }
 };
@@ -184,6 +214,22 @@ export const attachRemoveListener = (
   });
 };
 
+export const attachAddFavoriteListener = (
+  plusIconButton,
+  city,
+  iconsContainer
+) => {
+  appendCardEl(plusIconButton, iconsContainer);
+  plusIconButton.addEventListener("click", () => {
+    const existingCities = JSON.parse(localStorage.getItem("cities")) || [];
+    const updatedCities = [...existingCities, city];
+    localStorage.setItem("cities", JSON.stringify(updatedCities));
+    console.log(`City: '${city}' has been added to local storage.`);
+    // redirects to landing page
+    window.location.href = "index.html";
+  });
+};
+
 export const attachCardClickListener = (card, weatherApiData) => {
   card.addEventListener("click", () => {
     linkToForecast(
@@ -201,6 +247,8 @@ export const attachCardClickListener = (card, weatherApiData) => {
   });
 };
 
+// attachAddFavoriteListener = () => {};
+
 // updateInterface
 
 // const todayDate = () => {};
@@ -216,9 +264,9 @@ export const forecastDynamicBackground = (weatherDescription) => {
   switch (weatherDescription.innerText) {
     case "clear sky":
     case "haze":
+    case "few clouds":
       body.style.setProperty("background", "var(--sunny)");
       break;
-    case "few clouds":
     case "scattered clouds":
     case "broken clouds":
     case "overcast clouds":
