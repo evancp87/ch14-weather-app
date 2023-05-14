@@ -31,6 +31,16 @@ export const appendCardEl = (child, domRef) => {
   domRef.append(child);
 };
 
+export const appendChildEl = (child, domRef) => {
+  if (Array.isArray(child)) {
+    child.forEach((c) => {
+      domRef.appendChild(c);
+    });
+  } else {
+    domRef.appendChild(child);
+  }
+};
+
 export const appendCardElements = (elements, domRef) => {
   elements.forEach((element) => {
     domRef.appendChild(element);
@@ -148,21 +158,20 @@ export const createWeatherCard = (weatherApiData, domRef) => {
 
     const weatherData = [
       createWeatherCardElement(
+        [{ name: "class", value: "card__temp" }],
+        "p",
+        celsius
+      ),
+      createWeatherCardElement(
         [
           {
             name: "src",
-            value: `https://openweathermap.org/img/w/${weatherApiData.icon}.png`,
+            value: `https://openweathermap.org/img/wn/${weatherApiData.icon}@2x.png`,
           },
           { name: "class", value: "weather-icon" },
           { name: "alt", value: `${weatherApiData.name} weather icon` },
         ],
         "img"
-      ),
-
-      createWeatherCardElement(
-        [{ name: "class", value: "card__temp" }],
-        "p",
-        celsius
       ),
     ];
 
@@ -225,6 +234,7 @@ export const attachAddFavoriteListener = (
     const updatedCities = [...existingCities, city];
     localStorage.setItem("cities", JSON.stringify(updatedCities));
     console.log(`City: '${city}' has been added to local storage.`);
+
     // redirects to landing page
     window.location.href = "index.html";
   });
@@ -247,15 +257,41 @@ export const attachCardClickListener = (card, weatherApiData) => {
   });
 };
 
-// attachAddFavoriteListener = () => {};
+// TODO: fix this
 
-// updateInterface
+export const appendElementsToSearch = (elements, searchContainer) => {
+  elements.forEach((element) => {
+    searchContainer.appendChild(element);
+  });
+};
 
-// const todayDate = () => {};
+export const getCurrentDate = () => {
+  const currentDate = new Date();
+  const options = { year: "numeric", month: "long", day: "numeric" };
+  return currentDate.toLocaleDateString("en-gb", options);
+};
 
-// date helpers
+export const getCurrentTime = () => {
+  const d = new Date();
 
-// link to forecasts
+  const currentTime = d.getHours();
+  return currentTime;
+};
+
+export const getGreeting = (currentTime) => {
+  let greet;
+
+  if (currentTime >= 0 && currentTime < 12) {
+    greet = "morning";
+  } else if (currentTime >= 12 && currentTime < 18) {
+    greet = "afternoon";
+  } else if (currentTime >= 18 && currentTime < 24) {
+    greet = "evening";
+  } else {
+    greet = "night";
+  }
+  return greet;
+};
 
 export const forecastDynamicBackground = (weatherDescription) => {
   // const body = document.querySelector(".forecast-body");
@@ -274,6 +310,7 @@ export const forecastDynamicBackground = (weatherDescription) => {
       break;
     case "shower rain":
     case "rain":
+    case "light rain":
     case "thunderstorm":
     case "mist":
       body.style.setProperty("background", "var(--rain)");
@@ -285,4 +322,23 @@ export const forecastDynamicBackground = (weatherDescription) => {
       body.style.setProperty("background", "var(--default-bg)");
       break;
   }
+};
+
+// skeleton loading
+
+export const skeletonLoading = (app) => {
+  const loadingContainer = createWeatherCardElement(
+    [{ name: "class", value: "card skeleton-card" }],
+    "div"
+  );
+
+  const skeletonIcons = createWeatherCardElement(
+    [{ name: "class", value: "skeleton-icons" }],
+    "div"
+  );
+  app.insertBefore(loadingContainer, app.firstChild);
+};
+
+export const sortFavorites = (favorites) => {
+  return favorites.sort((a, b) => (a > b ? -1 : 1));
 };
