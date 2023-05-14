@@ -51,9 +51,22 @@ export const loadForm = () => {
   // lifting the scope
 
   appendCardElements([formContainer, results], search);
+  const backBtn = createWeatherCardElement(
+    [{ name: "class", value: "forecast__back-button btn" }],
+    "button"
+  );
 
-  search.appendChild(formContainer);
-  search.appendChild(results);
+  // const backBtn = document.createElement("button");
+  // backBtn.setAttribute("class", "forecast__back-button btn");
+  const back = `
+  
+<a href="index.html">Back </a>
+
+  `;
+  backBtn.innerHTML = back;
+  appendCardElements([backBtn, formContainer, results], search);
+  // search.appendChild(formContainer);
+  // search.appendChild(results);
 
   const searchForm = document.getElementById("searchForm");
 
@@ -95,21 +108,10 @@ const searchHandler = async (e) => {
         [
           { name: "id", value: "plus" },
           { name: "src", value: "./images/plus.png" },
-          { name: "class", value: "weather-icon" },
+          { name: "class", value: "plus-icon" },
         ],
         "img"
       );
-      // attachAddFavoriteListener(plusIcon, card, city, iconsContainer);
-
-      // handles adding a search result as a favorite in local storage
-      // plusIcon.addEventListener("click", () => {
-      //   const existingCities = JSON.parse(localStorage.getItem("cities")) || [];
-      //   const updatedCities = [...existingCities, city];
-      //   localStorage.setItem("cities", JSON.stringify(updatedCities));
-      //   console.log(`City: '${city}' has been added to local storage.`);
-      //   // redirects to landing page
-      //   window.location.href = "index.html";
-      // });
       attachAddFavoriteListener(plusIcon, city, iconsContainer);
       attachCardClickListener(card, weatherData);
       // appendCardEl(plusIcon, iconsContainer);
