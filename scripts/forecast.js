@@ -3,6 +3,7 @@ import apiKey from "../apiKey.js";
 import {
   forecastDynamicBackground,
   createWeatherCardElement,
+  getInternationalDateTime,
 } from "./utils.js";
 
 export const loadForecastCity = async () => {
@@ -16,6 +17,8 @@ export const loadForecastCity = async () => {
   const windSpeed = params.get("speed");
   const humidity = params.get("humidity");
   const visibility = params.get("visibility");
+  const datestring = params.get("dt");
+  const timezone = params.get("timezone");
 
   const weatherData = [
     { name: "Wind", value: windSpeed, icon: icon, unit: "mph" },
@@ -40,23 +43,26 @@ export const loadForecastCity = async () => {
 
   const weatherToday = document.createElement("section");
   weatherToday.setAttribute("class", "forecast__weather-today");
-  const date = new Date();
+  // const date = new Date();
   const celsius = Math.round(temp - 273.15) + "°C";
 
   const cityDayWeather = `
   <h2 >${cityName}</h2>
-  <p class="forecast__date">${date} </p>
+  <p class="forecast__date">${getInternationalDateTime(
+    datestring,
+    timezone
+  )} </p>
   <p class="forecast__description" id="description">${description} </p>
   <p class="forecast__temp">${celsius} </p>`;
 
   const dailySummary = document.createElement("section");
   dailySummary.setAttribute("class", "forecast__daily-summary");
   const summaryText = weatherData.map((weather) => {
-    const { name, value, icon, unit } = weather;
+    const { name, value, unit } = weather;
 
     return `
     <div class="forecast__daily-summary-item">
-    <img src="https://openweathermap.org/img/wn/${icon}@2x.png" alt="weather icon" class="forecast__daily-summary-weather-icon">
+    <img src="../images/${name}.png" alt="weather icon" class="forecast__daily-summary-weather-icon">
       <p>${value} ${unit}</p>
       <h3>${name}</h3>
      </div>`;
@@ -93,7 +99,7 @@ export const loadForecastCity = async () => {
       <div class="forecast__list-item">
       <h3>${localDate.toLocaleString()}</h3>
       <p>${description}</p> 
-      <img src="https://openweathermap.org/img/wn/${icon}@2x.png" alt="weather icon" class="forecast__daily-summary-weather-icon">
+      <img src="https://openweathermap.org/img/wn/${icon}@2x.png" alt="weather icon" class="forecast__forecast-summary-weather-icon">
 
       </div>
     
