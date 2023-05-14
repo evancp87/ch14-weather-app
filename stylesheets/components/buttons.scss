@@ -1,17 +1,5 @@
 @use "../abstracts/" as *;
 
-// indicators
-// tech buttons
-.exploreBtn {
-  margin-top: 3rem;
-  padding: 2rem;
-  width: 150px;
-  height: 150px;
-  background-color: $white;
-  color: $black;
-  border-radius: 50%;
-}
-
 .search-icon {
   max-width: 30px;
   height: auto;
@@ -23,8 +11,12 @@
 }
 
 .weather-icon {
-  max-width: 30px;
+  max-width: 50px;
   height: auto;
+  // to handle weather cards without a remove or plus icon
+  &:not(:has(+ .remove-btn)):not(:has(+ .plus-icon)) {
+    grid-row: 4;
+  }
 }
 
 .forecast__back-button {
@@ -44,11 +36,12 @@
 
   &:hover {
     cursor: pointer;
-    box-shadow: -10px 14px 14px 0px rgba(0, 0, 0, 0.63);
+    box-shadow: -1px 7px 14px 0px rgba(0, 0, 0, 0.63);
   }
 }
 
-.remove-btn {
+.remove-btn,
+.plus-icon {
   max-width: 20px;
   height: 20px;
   grid-row: 4;

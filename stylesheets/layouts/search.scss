@@ -16,6 +16,9 @@
 .search-form {
   display: flex;
   width: clamp(12.5rem, 4.464rem + 42.857vw, 31.25rem);
+  @include xs-tablets-v2 {
+    flex-wrap: wrap;
+  }
 
   .search-input {
     background: {
@@ -33,16 +36,20 @@
 
     + .search-btn {
       display: inline-flex;
-      border-radius: 10px;
+      border-radius: 20px;
       background-color: #db876b;
       color: #ffffff;
       justify-content: center;
       padding: 0.5em;
       flex: 0 3 100%;
       flex-wrap: wrap;
-
+      transition: box-shadow 0.3s ease-in-out;
+      @include xs-tablets-v2 {
+        margin-top: 1em;
+      }
       &:hover {
         cursor: pointer;
+        box-shadow: -1px 7px 14px 0px rgba(0, 0, 0, 0.63);
       }
     }
   }

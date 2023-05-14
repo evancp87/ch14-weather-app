@@ -36,76 +36,75 @@
 // Media query mixins
 
 @mixin xl-screens {
-  @media (min-width: 1800px) {
+  @media (width >= 1800px) {
     @content;
   }
 }
 
 @mixin desktop {
-  @media (min-width: 1200px) {
+  @media (width >= 1200px) {
     @content;
   }
 }
 
 @mixin sm-desktop {
-  @media (min-width: 1000px) {
+  @media (width >= 1000px) {
     @content;
   }
 }
 
 @mixin xl-tablets {
-  @media (min-width: 900px) {
+  @media (width >= 900px) {
     @content;
   }
 }
 @mixin lg-tablets {
-  @media (min-width: 800px) {
+  @media (width >= 800px) {
     @content;
   }
 }
 
 @mixin lg-tablets-max-width {
-  @media (max-width: 800px) {
+  @media (width <= 800px) {
     @content;
   }
 }
 
 @mixin md-tablets {
-  @media (min-width: 700px) {
+  @media (width >= 700px) {
     @content;
   }
 }
 @mixin md-tablets-v2 {
-  @media (min-width: 650px) {
+  @media (width >= 650px) {
     @content;
   }
 }
 
 @mixin sm-tablets {
-  @media (min-width: 600px) {
+  @media (width >= 600px) {
     @content;
   }
 }
 
 @mixin sm-tablets-max-width {
-  @media (max-width: 599px) {
+  @media (width <= 599px) {
     @content;
   }
 }
 
-// TODO: media query range syntax
 @mixin sm-tablets-max-width {
   @media (400px <= width <= 599px) {
     @content;
   }
 }
 @mixin sm-tablets-v2 {
-  @media (max-width: 550px) {
+  @media (width <= 550px) {
     @content;
   }
 }
 @mixin xs-tablets {
-  @media (min-width: 500px) {
+  @media (width >= 500px) {
     @content;
   }
 }
@@ -115,28 +114,28 @@
   }
 }
 @mixin main-phone-breakpoint {
-  @media (min-width: 400px) {
+  @media (width >= 400px) {
     @content;
   }
 }
 @mixin md-phone {
-  @media (min-width: 375px) {
+  @media (width >= 375px) {
     @content;
   }
 }
 @mixin extra-sm-phones {
-  @media (min-width: 300px) {
+  @media (width >= 300px) {
     @content;
   }
 }
 
 @mixin extra-sm-phones-max {
-  @media (max-width: 300px) {
+  @media (width <= 300px) {
     @content;
   }
 }
 @mixin xxs-mobile-breakpoint {
-  @media (min-width: 255px) and (max-width: 299px) {
+  @media (299px <= width <= 299px) {
     @content;
   }
 }
