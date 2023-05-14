@@ -1,32 +1,30 @@
+@use "../abstracts/" as *;
+
+// skeleton card placeholder while api call loading
 .skeleton-card {
-  animation-name: loading;
-  animation-duration: 1.5s;
-  animation-iteration-count: infinite;
-
-  width: min(200px, 60vw);
+  animation: {
+    name: loading;
+    duration: 1.5s;
+    iteration-count: infinite;
+  }
   width: max(200px, 60vw);
-
   padding: 4em;
   border: none;
   border-radius: 10px;
-
-  background-color: #d3d3d3;
-  margin-block: 1em;
+  background-color: $skeleton-card;
+  margin-block-start: 1em;
+  margin-block-end: 10em;
 }
 
 @keyframes loading {
   0% {
     opacity: 1;
   }
-  //   25% {
-  //     opacity: 0.6;
-  //   }
+
   50% {
     opacity: 0.1;
   }
-  //   75% {
-  //     opacity: 0.6;
-  //   }
+
   100% {
     opacity: 1;
   }

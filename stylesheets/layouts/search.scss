@@ -40,8 +40,8 @@
     + .search-btn {
       display: inline-flex;
       border-radius: 20px;
-      background-color: #db876b;
-      color: #ffffff;
+      background-color: $search-btn;
+      color: $white;
       justify-content: center;
       padding: 0.5em;
       flex: 0 3 100%;
@@ -57,7 +57,7 @@
     }
   }
 }
-
+// placeholder to stop js related content layout shifts
 .search-results-placeholder {
   height: 234px;
 }

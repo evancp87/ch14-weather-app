@@ -1,5 +1,6 @@
 @use "../abstracts/" as *;
 
+// custom props used in javascript for dynamic backgrounds
 :root {
   --default-bg: linear-gradient(
     90deg,
@@ -23,7 +24,7 @@
   .forecast__weather-today {
     margin-block-start: 2rem;
     display: contents;
-    color: #000000;
+    color: $black;
 
     .forecast__date {
       border: 1px solid currentColor;
@@ -34,7 +35,7 @@
       }
       margin-block: 1em;
       color: grey;
-      background-color: #000000;
+      background-color: $black;
     }
   }
   .forecast__description {
@@ -57,11 +58,10 @@
   @include flexbox-config($justify-content: space-between);
   padding: 1em;
   margin-block-end: 2em;
-  border: 1px solid #000000;
+  border: 1px solid $black;
   border-radius: 20px;
-  color: white;
-  background: #000000;
-  // width: max(500px, 60vw);
+  color: $white;
+  background: $black;
   flex-wrap: wrap;
   width: min(500px, 80vw);
   @include sm-tablets-max-width {
@@ -86,7 +86,7 @@
       block: 2.5em;
       inline: 0.5em;
     }
-    border: 1px solid #808080;
+    border: 1px solid $border-button;
     border-radius: 20px;
     background-color: transparent;
     @include flexbox-config($flex-direction: column, $align-items: center);

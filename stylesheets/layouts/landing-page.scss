@@ -12,7 +12,6 @@
   );
 
   .landing-page__header {
-    // @include flexbox-config($justify-content: center);
     .landing-page__nav {
       @include flexbox-config(
         $flex-direction: column,
@@ -42,9 +41,7 @@
 }
 
 .location-container {
-  border-bottom: 2px dashed #000000;
   margin-block-end: 2rem;
-  padding-block-end: 2rem;
 }
 
 .location-container,
@@ -52,12 +49,4 @@
 .search-results {
   max-width: 60%;
   width: 60%;
-}
-
-.favorites {
-  .favorite {
-    &:last-child {
-      margin-block-end: 5rem;
-    }
-  }
 }

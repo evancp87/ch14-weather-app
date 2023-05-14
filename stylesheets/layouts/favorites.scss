@@ -1,0 +1,10 @@
+@use "../abstracts/" as *;
+.favorites {
+  border-top: 2px dashed $black;
+  padding-block-start: 3em;
+  .favorite {
+    &:last-child {
+      margin-block-end: 5rem;
+    }
+  }
+}

@@ -404,7 +404,6 @@ body {
   height: 30px;
   display: block;
   align-self: center;
-  /*   margin-inline-start: 1em; */
 }
 
 .card__container {
@@ -455,7 +454,8 @@ body {
   transition: filter 0.5s ease-in-out;
 }
 .search-icon:hover {
-  filter: drop-shadow(2px 4px 6px black);
+  filter: drop-shadow(2px 4px 6px #0b0d17);
+  cursor: pointer;
 }
 
 .weather-icon {
@@ -505,13 +505,13 @@ body {
   animation-name: loading;
   animation-duration: 1.5s;
   animation-iteration-count: infinite;
-  width: min(200px, 60vw);
   width: max(200px, 60vw);
   padding: 4em;
   border: none;
   border-radius: 10px;
   background-color: #d3d3d3;
-  margin-block: 1em;
+  margin-block-start: 1em;
+  margin-block-end: 10em;
 }
 
 @keyframes loading {
@@ -552,7 +552,7 @@ body {
 .forecast .forecast__weather-today {
   margin-block-start: 2rem;
   display: contents;
-  color: #000000;
+  color: #0b0d17;
 }
 .forecast .forecast__weather-today .forecast__date {
   border: 1px solid currentColor;
@@ -561,7 +561,7 @@ body {
   padding-inline: 0.7em;
   margin-block: 1em;
   color: grey;
-  background-color: #000000;
+  background-color: #0b0d17;
 }
 .forecast .forecast__description {
   margin-block-start: 2em;
@@ -582,10 +582,10 @@ body {
   justify-content: space-between;
   padding: 1em;
   margin-block-end: 2em;
-  border: 1px solid #000000;
+  border: 1px solid #0b0d17;
   border-radius: 20px;
-  color: white;
-  background: #000000;
+  color: #ffffff;
+  background: #0b0d17;
   flex-wrap: wrap;
   width: min(500px, 80vw);
 }
@@ -668,9 +668,7 @@ body {
 }
 
 .location-container {
-  border-bottom: 2px dashed #000000;
   margin-block-end: 2rem;
-  padding-block-end: 2rem;
 }
 
 .location-container,
@@ -678,10 +676,6 @@ body {
 .search-results {
   max-width: 60%;
   width: 60%;
-}
-
-.favorites .favorite:last-child {
-  margin-block-end: 5rem;
 }
 
 .search {
@@ -744,6 +738,14 @@ body {
 
 .search-results-placeholder {
   height: 234px;
+}
+
+.favorites {
+  border-top: 2px dashed #0b0d17;
+  padding-block-start: 3em;
+}
+.favorites .favorite:last-child {
+  margin-block-end: 5rem;
 }
 
 /*# sourceMappingURL=style.css.map */

@@ -6,7 +6,8 @@
   transition: filter 0.5s ease-in-out;
 
   &:hover {
-    filter: drop-shadow(2px 4px 6px black);
+    filter: drop-shadow(2px 4px 6px $black);
+    cursor: pointer;
   }
 }
 
@@ -22,7 +23,7 @@
     margin-inline-start: -1em;
   }
 }
-
+// placeholder for back buttons used in a couple of places
 %back-button {
   display: inline-flex;
   align-self: flex-start;
@@ -35,7 +36,7 @@
   width: 75px;
   @include flexbox-config($justify-content: center);
   background: none;
-  border: 1px solid #808080;
+  border: 1px solid $border-button;
   transition: box-shadow 0.3s ease-in-out;
 
   &:hover {
