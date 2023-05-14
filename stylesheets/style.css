@@ -625,6 +625,12 @@ body {
 
 .forecast__daily-summary-weather-icon {
   aspect-ratio: 5/6;
+  filter: invert(100%) sepia(0%) saturate(18%) hue-rotate(348deg) brightness(106%) contrast(104%);
+  width: clamp(3.125rem, 2.273rem + 4.545vw, 6.25rem);
+}
+
+.forecast__forecast-summary-weather-icon {
+  aspect-ratio: 5/6;
   width: clamp(3.125rem, 1.786rem + 7.143vw, 6.25rem);
 }
 
@@ -734,6 +740,10 @@ body {
 .search-form .search-input + .search-btn:hover {
   cursor: pointer;
   box-shadow: -1px 7px 14px 0px rgba(0, 0, 0, 0.63);
+}
+
+.search-results-placeholder {
+  height: 234px;
 }
 
 /*# sourceMappingURL=style.css.map */
