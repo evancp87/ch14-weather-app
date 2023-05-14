@@ -22,8 +22,19 @@ export const loadForm = () => {
     "form"
   );
 
+  const label = createWeatherCardElement(
+    [{ name: "for", value: "search-input" }],
+    "label",
+    "Enter a city"
+  );
   const searchInput = createWeatherCardElement(
-    [{ name: "id", value: "citySearch", name: "class", value: "search-input" }],
+    [
+      { name: "id", value: "citySearch" },
+      { name: "class", value: "search-input" },
+      { name: "class", value: "search-input" },
+      { name: "type", value: "text" },
+      { name: "name", value: "search-input" },
+    ],
     "input"
   );
 
@@ -32,7 +43,7 @@ export const loadForm = () => {
     "input"
   );
 
-  appendCardElements([searchInput, inputBtn], formContainer);
+  appendCardElements([label, searchInput, inputBtn], formContainer);
 
   // TODO: add labels
   formContainer.innerHTML = ` 
@@ -48,6 +59,14 @@ export const loadForm = () => {
     ],
     "div"
   );
+
+  const placeholder = createWeatherCardElement(
+    [{ name: "class", value: "search-results-placeholder" }],
+    "div"
+  );
+
+  results.appendChild(placeholder);
+
   // lifting the scope
 
   appendCardElements([formContainer, results], search);
@@ -93,7 +112,11 @@ const searchHandler = async (e) => {
 
     // disallows duplicate searches if currently the city displayed
     const alreadyAdded = Array.from(results.children).some((child) => {
-      return child.querySelector("h2").textContent === name;
+      const headingElement = child.querySelector(".card__heading");
+      return (
+        headingElement &&
+        headingElement.textContent.toLowerCase() === city.toLowerCase()
+      );
     });
 
     // Display the weather information on the webpage
