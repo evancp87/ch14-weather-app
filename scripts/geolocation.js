@@ -29,10 +29,6 @@ const options = {
 };
 
 navigator.geolocation.getCurrentPosition(
-  (position) => {
-    skeletonLoading();
-    successCallback(position);
-  },
   successCallback,
   errorCallback,
   options
@@ -98,6 +94,7 @@ export const getCurrLocation = () => {
   );
 
   appendCardElements([textContainer, locationHeader], container);
+  skeletonLoading(app);
 
   return navigator.geolocation.getCurrentPosition(async (position) => {
     try {
