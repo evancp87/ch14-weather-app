@@ -52,7 +52,7 @@ export const loadForm = () => {
 
   appendCardElements([formContainer, results], search);
   const backBtn = createWeatherCardElement(
-    [{ name: "class", value: "forecast__back-button btn" }],
+    [{ name: "class", value: "search__back-button btn" }],
     "button"
   );
 
@@ -122,12 +122,12 @@ const searchHandler = async (e) => {
 };
 
 const focusInput = (event) => {
-  event.target.style.border = "2px solid blue";
+  event.target.style.outline = "3px dashed #979797";
   event.target.style.backgroundImage = "";
 };
 
 const blurInput = (event) => {
-  event.target.style.border = "";
+  event.target.style.outline = "";
 };
 
 window.addEventListener("load", () => {
