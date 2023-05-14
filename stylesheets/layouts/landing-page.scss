@@ -24,6 +24,11 @@
   }
 }
 
+.landing-page__search-input {
+  @include xs-tablets-max-width {
+    margin-block-start: 1em;
+  }
+}
 .landing-page__search-blurb {
   @include flexbox-config(
     $flex-direction: row,

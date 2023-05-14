@@ -3,9 +3,9 @@
   animation-duration: 1.5s;
   animation-iteration-count: infinite;
 
-  max-width: 100%;
-  width: clamp(12.5rem, -16.875rem + 94vw, 41.875rem);
-  //   height: 160px;
+  width: min(200px, 60vw);
+  width: max(200px, 60vw);
+
   padding: 4em;
   border: none;
   border-radius: 10px;

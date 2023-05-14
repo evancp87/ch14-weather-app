@@ -138,7 +138,7 @@ export const createWeatherCard = (weatherApiData, domRef) => {
     const weatherCardElArr = [
       createWeatherCardElement(
         [{ name: "class", value: "card__heading" }],
-        "h2",
+        "h3",
         weatherApiData.name
       ),
       createWeatherCardElement(

@@ -15,6 +15,7 @@
 }
 .search-form {
   display: flex;
+  margin-block-start: 2em;
   width: clamp(12.5rem, 4.464rem + 42.857vw, 31.25rem);
   @include xs-tablets-v2 {
     flex-wrap: wrap;
@@ -29,8 +30,10 @@
     }
     border-radius: 20px;
     margin-inline-end: 0.4em;
-
-    padding: 0.5em;
+    padding: {
+      inline-start: 2.5em;
+      block: 0.5em;
+    }
     flex: 0 1 100%;
     @include flexbox-config($justify-content: center);
 

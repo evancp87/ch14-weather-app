@@ -19,7 +19,12 @@
   background-color: #4799e5;
   margin-block: 1em;
   transition: box-shadow 0.3s ease-in-out;
-
+  @include xs-tablets {
+    margin-block-end: 1em;
+  }
+  @include xs-tablets-v2 {
+    justify-items: start;
+  }
   &:hover {
     cursor: pointer;
     box-shadow: -10px 14px 14px 0px rgba(0, 0, 0, 0.63);
@@ -46,8 +51,10 @@
   display: grid;
   grid-template-rows: repeat(2, 1fr);
   margin-inline-end: 1em;
-
-  > h2 {
+  @include xs-tablets-v2 {
+    margin-block-end: 1em;
+  }
+  > h3 {
     grid-row: 1;
     color: $white;
     font-size: clamp(1.25rem, 0.714rem + 2.857vw, 2.5rem);
@@ -63,6 +70,9 @@
   grid-template-rows: repeat(3, 1fr);
   justify-items: center;
 
+  @include xs-tablets-v2 {
+    justify-items: start;
+  }
   .card__temp {
     grid-row: 1;
   }
