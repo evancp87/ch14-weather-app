@@ -10,26 +10,22 @@ import {
 
 const app = document.getElementById("root");
 
-export const getFavorites = async () => {
+export const getFavorites = async (initialFavoritesLength) => {
   // map over localStorage
   try {
     const citiesString = localStorage.getItem("cities");
     const citiesArray = JSON.parse(citiesString);
-    const currentFavoritesLength = citiesArray.length;
-
     const favoritesSection = createWeatherCardElement(
       [{ name: "class", value: "favorites" }],
       "section"
     );
-    const headingArr = [
-      createWeatherCardElement(
-        [{ name: "class", value: "card__heading" }],
-        "h2",
-        "Favorites"
-      ),
-    ];
+    const heading = createWeatherCardElement(
+      [{ name: "class", value: "card__heading" }],
+      "h2",
+      "Favorites"
+    );
 
-    appendCardEl(headingArr, favoritesSection);
+    appendCardEl(heading, favoritesSection);
 
     app.appendChild(favoritesSection);
 
@@ -55,28 +51,6 @@ export const getFavorites = async () => {
 
       attachRemoveListener(removeButton, card, city, iconsContainer);
       attachCardClickListener(card, weatherApiData);
-    }
-
-    // TODO: fix this
-    console.log(citiesArray);
-    const newFavoritesArrLength = citiesArray.length;
-
-    if (newFavoritesArrLength > currentFavoritesLength) {
-      const lastCityIndex = citiesArray.length - 1;
-      console.log("the last city index", lastCityIndex);
-      const lastCity = citiesArray[lastCityIndex];
-      console.log("the last city", lastCity);
-      const el = document.getElementById(lastCity);
-      console.log("the last city el", el);
-
-      // el.scrollIntoView({ behavior: "smooth" });
-      if (el) {
-        console.log("scrolling to element");
-        el.scrollIntoView({ behavior: "smooth" });
-      } else {
-        console.log("element not found");
-      }
-      // }
     }
   } catch (error) {
     console.error("error", error);
