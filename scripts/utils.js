@@ -57,6 +57,8 @@ export const apiCall = async (city, apiKey) => {
     main: { temp, humidity },
     coord: { lon, lat },
     wind: { speed },
+    dt,
+    timezone,
     visibility,
   } = data;
 
@@ -69,6 +71,8 @@ export const apiCall = async (city, apiKey) => {
     humidity,
     lon,
     lat,
+    dt,
+    timezone,
     speed,
     visibility,
   };
@@ -87,6 +91,8 @@ export const geolocationApiCall = async (latitude, longitude, apiKey) => {
     coord: { lon, lat },
     wind: { speed },
     visibility,
+    dt,
+    timezone,
   } = data;
 
   return {
@@ -97,6 +103,8 @@ export const geolocationApiCall = async (latitude, longitude, apiKey) => {
     humidity,
     lon,
     lat,
+    dt,
+    timezone,
     speed,
     visibility,
   };
@@ -112,11 +120,13 @@ export const linkToForecast = (
   humidity,
   speed,
   visibility,
-  icon
+  icon,
+  dt,
+  timezone
 ) => {
   elem.addEventListener("click", () => {
     // const cityName = cityName.textContent;
-    window.location.href = `forecast.html?city=${name}&lon=${lon}&lat=${lat}&description=${description}&temp=${temp}&humidity=${humidity}&speed=${speed}&visibility=${visibility}&icon=${icon}`;
+    window.location.href = `forecast.html?city=${name}&lon=${lon}&lat=${lat}&description=${description}&temp=${temp}&humidity=${humidity}&speed=${speed}&visibility=${visibility}&icon=${icon}&dt=${dt}&timezone=${timezone}`;
   });
 };
 
@@ -252,7 +262,8 @@ export const attachCardClickListener = (card, weatherApiData) => {
       weatherApiData.humidity,
       weatherApiData.speed,
       weatherApiData.visibility,
-      weatherApiData.icon
+      weatherApiData.icon,
+      weatherApiData.dt
     );
   });
 };
@@ -269,6 +280,29 @@ export const getCurrentDate = () => {
   const currentDate = new Date();
   const options = { year: "numeric", month: "long", day: "numeric" };
   return currentDate.toLocaleDateString("en-gb", options);
+};
+
+// export const getInternationalDate = (dateStr) => {
+//   const d = new Date(dateStr);
+
+//   const datestring = `${d.getDate()}/${
+//     d.getMonth() + 1
+//   }/${d.getFullYear()} - ${d.getTime().toLocaleString()}`;
+//   return datestring;
+// };
+
+export const getInternationalDateTime = (timestamp, timezone) => {
+  const d = new Date(timestamp * 1000);
+  const options = {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    timezone: timezone || "UTC",
+  };
+  console.log(timezone);
+  return d.toLocaleString("en-GB", options);
 };
 
 export const getCurrentTime = () => {
