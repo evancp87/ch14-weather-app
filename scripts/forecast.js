@@ -1,6 +1,9 @@
 // forecastContainer.appendChild(forecastItem);
 import apiKey from "../apiKey.js";
-import { forecastDynamicBackground } from "./utils.js";
+import {
+  forecastDynamicBackground,
+  createWeatherCardElement,
+} from "./utils.js";
 
 export const loadForecastCity = async () => {
   const params = new URLSearchParams(window.location.search);
@@ -21,8 +24,13 @@ export const loadForecastCity = async () => {
   ];
 
   const forecastContainer = document.getElementById("forecast");
-  const backBtn = document.createElement("button");
-  backBtn.setAttribute("class", "forecast__back-button btn");
+  const backBtn = createWeatherCardElement(
+    [{ name: "class", value: "forecast__back-button btn" }],
+    "button"
+  );
+
+  // const backBtn = document.createElement("button");
+  // backBtn.setAttribute("class", "forecast__back-button btn");
   const back = `
   
 <a href="index.html">Back </a>
@@ -48,7 +56,7 @@ export const loadForecastCity = async () => {
 
     return `
     <div class="forecast__daily-summary-item">
-    <img src="https://openweathermap.org/img/w/${icon}.png" alt="weather icon" class="forecast__daily-summary-weather-icon">
+    <img src="https://openweathermap.org/img/wn/${icon}@2x.png" alt="weather icon" class="forecast__daily-summary-weather-icon">
       <p>${value} ${unit}</p>
       <h3>${name}</h3>
      </div>`;
@@ -85,7 +93,7 @@ export const loadForecastCity = async () => {
       <div class="forecast__list-item">
       <h3>${localDate.toLocaleString()}</h3>
       <p>${description}</p> 
-      <img src="https://openweathermap.org/img/w/${icon}.png" alt="weather icon" class="forecast__daily-summary-weather-icon">
+      <img src="https://openweathermap.org/img/wn/${icon}@2x.png" alt="weather icon" class="forecast__daily-summary-weather-icon">
 
       </div>
     
