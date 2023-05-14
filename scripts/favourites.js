@@ -6,11 +6,12 @@ import {
   apiCall,
   attachRemoveListener,
   attachCardClickListener,
+  sortFavorites,
 } from "./utils.js";
 
 const app = document.getElementById("root");
 
-export const getFavorites = async (initialFavoritesLength) => {
+export const getFavorites = async () => {
   // map over localStorage
   try {
     const citiesString = localStorage.getItem("cities");
@@ -25,12 +26,14 @@ export const getFavorites = async (initialFavoritesLength) => {
       "Favorites"
     );
 
+    const sortedCitiesArray = sortFavorites(citiesArray);
+    console.log("the sorted cities are:", sortedCitiesArray);
     appendCardEl(heading, favoritesSection);
 
     app.appendChild(favoritesSection);
 
     // loop over favorites array and for each get the key and make an api call the item from localstorage
-    for (let city of citiesArray) {
+    for (let city of sortedCitiesArray) {
       console.log("the city is:", city);
 
       const weatherApiData = await apiCall(city, apiKey);
@@ -52,6 +55,7 @@ export const getFavorites = async (initialFavoritesLength) => {
       attachRemoveListener(removeButton, card, city, iconsContainer);
       attachCardClickListener(card, weatherApiData);
     }
+    sortFavorites(citiesArray);
   } catch (error) {
     console.error("error", error);
   }

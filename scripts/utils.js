@@ -337,8 +337,9 @@ export const skeletonLoading = (app) => {
     "div"
   );
   app.insertBefore(loadingContainer, app.firstChild);
+  return loadingContainer;
 };
 
 export const sortFavorites = (favorites) => {
-  return favorites.sort((a, b) => (a > b ? -1 : 1));
+  return favorites.sort((a, b) => (a < b ? -1 : 1));
 };
