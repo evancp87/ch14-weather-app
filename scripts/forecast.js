@@ -7,6 +7,7 @@ import {
   getInternationalDateTime,
 } from "./utils.js";
 
+// unpacks params from url sent from weather cards
 const urlParams = () => {
   const params = new URLSearchParams(window.location.search);
   const cityName = params.get("city");
@@ -19,8 +20,6 @@ const urlParams = () => {
   const humidity = params.get("humidity");
   const visibility = params.get("visibility");
   const datestring = params.get("dt");
-  const timezone = params.get("timezone");
-  console.log(timezone);
   return {
     cityName,
     lon,
@@ -32,7 +31,6 @@ const urlParams = () => {
     humidity,
     visibility,
     datestring,
-    timezone,
   };
 };
 
@@ -48,7 +46,6 @@ const generateDailySummary = (params) => {
     humidity,
     visibility,
     datestring,
-    timezone,
   } = parameters;
 
   const weatherData = [
@@ -114,7 +111,6 @@ const forecastApiCall = async (forecastContainer) => {
       { name: "class", value: "forecast__list" },
       "section",
     ]);
-    // forecastList.setAttribute("class", "forecast__list");
     const forecastArr = daily.slice(1, 5).map((item) => ({
       description: item.weather[0].description,
       icon: item.weather[0].icon,

@@ -40,6 +40,7 @@ const renderFavoriteCity = async (city) => {
 
 export const getFavorites = async () => {
   try {
+    // gets key of localStorage favorites and turns into array
     const citiesString = localStorage.getItem("cities");
     const citiesArray = JSON.parse(citiesString);
     const favoritesSection = createWeatherCardElement(

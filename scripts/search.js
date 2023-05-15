@@ -109,6 +109,7 @@ const handleSearch = async (e) => {
     console.log("the data is:", weatherData);
     const results = document.getElementById("results");
 
+    // prevents unnecessary api calls if city is already found
     const alreadyAdded = Array.from(results.children).some((child) => {
       const headingElement = child.querySelector(".card__heading");
       return (
@@ -118,6 +119,7 @@ const handleSearch = async (e) => {
     });
 
     if (!alreadyAdded) {
+      // resets results and creates new card
       results.innerHTML = "";
 
       let { card, iconsContainer } = createWeatherCard(weatherData, results);

@@ -1,5 +1,6 @@
 import apiKey from "../apiKey.js";
 
+// creates weather cards programatically by taking in html tag, an array of attributes and optional text and children
 export const createWeatherCardElement = (
   attributes = [],
   tag,
@@ -27,6 +28,7 @@ export const createWeatherCardElement = (
   return element;
 };
 
+// functions for dom creation and appending
 export const appendCardEl = (child, domRef) => {
   domRef.append(child);
 };
@@ -47,6 +49,7 @@ export const appendCardElements = (elements, domRef) => {
   });
 };
 
+// api call and data destructuring
 export const apiCall = async (city, apiKey) => {
   const { data } = await axios.get(
     `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}`
@@ -78,8 +81,8 @@ export const apiCall = async (city, apiKey) => {
   };
 };
 
+// api call for Geolocation
 export const geolocationApiCall = async (latitude, longitude, apiKey) => {
-  // Make a request to the OpenWeather API
   const { data } = await axios.get(
     `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}`
   );
@@ -110,6 +113,7 @@ export const geolocationApiCall = async (latitude, longitude, apiKey) => {
   };
 };
 
+// links to city forecast on click by passing params to url
 export const linkToForecast = (
   elem,
   name,
@@ -130,6 +134,7 @@ export const linkToForecast = (
   });
 };
 
+// creates weather card from api data
 export const createWeatherCard = (weatherApiData, domRef) => {
   if (weatherApiData) {
     const card = createWeatherCardElement(
@@ -203,9 +208,9 @@ export const createWeatherCard = (weatherApiData, domRef) => {
   }
 };
 
+// removes favourite from favouries section
 export const removeFavorite = (e, card, city) => {
   e.stopPropagation();
-  // save variable of item
 
   const itemToDelete = city;
   const citiesString = localStorage.getItem("cities");
@@ -221,6 +226,8 @@ export const removeFavorite = (e, card, city) => {
   card.remove();
 };
 
+// ============================================
+// event listeners for removing/adding favorites, etc
 export const attachRemoveListener = (
   removeButton,
   card,
@@ -233,6 +240,7 @@ export const attachRemoveListener = (
   });
 };
 
+// adds to local storage
 export const attachAddFavoriteListener = (
   plusIconButton,
   city,
@@ -268,6 +276,7 @@ export const attachCardClickListener = (card, weatherApiData) => {
     );
   });
 };
+// ============================================
 
 export const appendElementsToSearch = (elements, searchContainer) => {
   elements.forEach((element) => {
@@ -299,6 +308,7 @@ export const getCurrentTime = () => {
   return currentTime;
 };
 
+// for greeting on landing page
 export const getGreeting = (currentTime) => {
   let greet;
 
@@ -314,8 +324,8 @@ export const getGreeting = (currentTime) => {
   return greet;
 };
 
+// dynamically changes background of forecast city page based on weather
 export const forecastDynamicBackground = (weatherDescription) => {
-  // const body = document.querySelector(".forecast-body");
   const body = document.getElementById("forecastBody");
 
   switch (weatherDescription.innerText) {
@@ -345,7 +355,7 @@ export const forecastDynamicBackground = (weatherDescription) => {
   }
 };
 
-// skeleton loading
+// skeleton loading card for api call
 
 export const skeletonLoading = (app) => {
   const loadingContainer = createWeatherCardElement(
