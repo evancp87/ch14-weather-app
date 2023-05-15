@@ -750,6 +750,15 @@ body {
   height: 234px;
 }
 
+.not-found {
+  height: 250px;
+  font-size: 1.5rem;
+  color: #db876b;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .favorites {
   border-top: 2px dashed #0b0d17;
   padding-block-start: 3em;

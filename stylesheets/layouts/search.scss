@@ -69,3 +69,10 @@
 .search-results-placeholder {
   height: 234px;
 }
+
+.not-found {
+  height: 250px;
+  font-size: 1.5rem;
+  color: $search-btn;
+  @include flexbox-config($align-items: center, $justify-content: center);
+}

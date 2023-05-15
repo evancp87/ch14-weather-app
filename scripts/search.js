@@ -7,7 +7,6 @@ import {
   attachAddFavoriteListener,
   appendCardElements,
 } from "./utils.js";
-import { schema } from "./errors.js";
 
 const search = document.getElementById("search-section");
 let weatherData;
@@ -99,28 +98,13 @@ const addEventListeners = () => {
   input.addEventListener("blur", blurInput);
 };
 
-const displayErrorMessage = () => {
-  const results = document.getElementById("results");
-  results.innerHTML = "<p>City not found</p>";
-};
-
 const handleSearch = async (e) => {
   e.preventDefault();
   try {
     let city = document.getElementById("citySearch").value.trim();
     console.log(city);
 
-    // Validate the input using the schema
-    const { error } = schema.validate(city);
-    if (error) {
-      throw new Error("Invalid input. Only text is allowed.");
-    }
-
     weatherData = await apiCall(city, apiKey);
-
-    if (weatherData.cod === "404") {
-      throw new Error("City not found");
-    }
 
     console.log("the data is:", weatherData);
     const results = document.getElementById("results");
@@ -136,7 +120,7 @@ const handleSearch = async (e) => {
     if (!alreadyAdded) {
       results.innerHTML = "";
 
-      const { card, iconsContainer } = createWeatherCard(weatherData, results);
+      let { card, iconsContainer } = createWeatherCard(weatherData, results);
 
       const plusIcon = createWeatherCardElement(
         [
@@ -151,8 +135,8 @@ const handleSearch = async (e) => {
     }
   } catch (error) {
     console.error("error:", error);
-    if (error.message === "City not found") {
-      displayErrorMessage();
+    if (error.response.status === 404 || 400) {
+      results.innerHTML = `<p class="not-found">City not found!</p>`;
     }
   }
 };
