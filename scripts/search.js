@@ -6,6 +6,7 @@ import {
   attachCardClickListener,
   attachAddFavoriteListener,
   appendCardElements,
+  createFormElements,
 } from "./utils.js";
 
 const search = document.getElementById("search-section");
@@ -21,42 +22,6 @@ export const loadForm = () => {
   appendCardElements([backBtn, ...formElements, resultsContainer], search);
 
   addEventListeners();
-};
-
-const createFormElements = () => {
-  const formContainer = createWeatherCardElement(
-    [
-      { name: "id", value: "searchForm" },
-      { name: "class", value: "search-form" },
-    ],
-    "form"
-  );
-  const label = createWeatherCardElement(
-    [
-      { name: "for", value: "search-input" },
-      { name: "class", value: "search-input-label" },
-    ],
-    "label",
-    "Enter city"
-  );
-  const searchInput = createWeatherCardElement(
-    [
-      { name: "id", value: "citySearch" },
-      { name: "class", value: "search-input" },
-      { name: "type", value: "text" },
-      { name: "name", value: "search-input" },
-    ],
-    "input"
-  );
-  const inputBtn = createWeatherCardElement(
-    [{ name: "class", value: "search-btn" }],
-    "button",
-    "search"
-  );
-
-  appendCardElements([label, searchInput, inputBtn], formContainer);
-
-  return [formContainer];
 };
 
 const createResultsContainer = () => {

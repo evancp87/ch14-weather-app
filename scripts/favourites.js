@@ -38,32 +38,57 @@ const renderFavoriteCity = async (city) => {
   }
 };
 
+const createFavoritesSection = () => {
+  const favoritesSection = createWeatherCardElement(
+    [{ name: "class", value: "favorites" }],
+    "section"
+  );
+  const heading = createWeatherCardElement(
+    [{ name: "class", value: "card__heading" }],
+    "h2",
+    "Favorites"
+  );
+
+  appendCardEl(heading, favoritesSection);
+  app.appendChild(favoritesSection);
+
+  return favoritesSection;
+};
+
 export const getFavorites = async () => {
   try {
-    // gets key of localStorage favorites and turns into array
+    //     // gets key of localStorage favorites and turns into array
+
     const citiesString = localStorage.getItem("cities");
     const citiesArray = JSON.parse(citiesString);
-    const favoritesSection = createWeatherCardElement(
-      [{ name: "class", value: "favorites" }],
-      "section"
-    );
-    const heading = createWeatherCardElement(
-      [{ name: "class", value: "card__heading" }],
-      "h2",
-      "Favorites"
-    );
 
+    const favoritesSection = createFavoritesSection();
     const sortedCitiesArray = sortFavorites(citiesArray);
+
     console.log("The sorted cities are:", sortedCitiesArray);
 
-    appendCardEl(heading, favoritesSection);
-    app.appendChild(favoritesSection);
-
     for (let city of sortedCitiesArray) {
-      console.log("The city is:", city);
       await renderFavoriteCity(city);
     }
   } catch (error) {
     console.error("Error", error);
   }
 };
+
+// export const getFavorites = async () => {
+//   try {
+//     // gets key of localStorage favorites and turns into array
+//     const citiesString = localStorage.getItem("cities");
+//     const citiesArray = JSON.parse(citiesString);
+//     const favoritesSection = createFavoritesSection();
+//     const sortedCitiesArray = sortFavorites(citiesArray);
+//     console.log("The sorted cities are:", sortedCitiesArray);
+
+//     for (let city of sortedCitiesArray) {
+//       console.log("The city is:", city);
+//       await renderFavoriteCity(city);
+//     }
+//   } catch (error) {
+//     console.error("Error", error);
+//   }
+// };

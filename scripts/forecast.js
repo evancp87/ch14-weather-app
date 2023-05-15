@@ -1,4 +1,3 @@
-// forecastContainer.appendChild(forecastItem);
 import apiKey from "../apiKey.js";
 import {
   forecastDynamicBackground,
@@ -6,6 +5,8 @@ import {
   createWeatherCardElement,
   getInternationalDateTime,
 } from "./utils.js";
+
+const forecastContainer = document.getElementById("forecast");
 
 // unpacks params from url sent from weather cards
 const urlParams = () => {
@@ -35,8 +36,6 @@ const urlParams = () => {
 };
 
 const generateDailySummary = (params) => {
-  const parameters = urlParams();
-
   const {
     cityName,
     temp,
@@ -46,7 +45,7 @@ const generateDailySummary = (params) => {
     humidity,
     visibility,
     datestring,
-  } = parameters;
+  } = params;
 
   const weatherData = [
     { name: "Wind", value: windSpeed, icon: icon, unit: "mph" },
@@ -54,7 +53,6 @@ const generateDailySummary = (params) => {
     { name: "visibility", value: visibility, icon: icon, unit: "m" },
   ];
 
-  const forecastContainer = document.getElementById("forecast");
   const backBtn = createWeatherCardElement(
     [{ name: "class", value: "forecast__back-button btn" }],
     "button"
@@ -94,13 +92,14 @@ const generateDailySummary = (params) => {
 
   dailySummary.innerHTML = summaryText.join(" ");
   weatherToday.innerHTML = cityDayWeather;
-  appendCardElements([backBtn, weatherToday, dailySummary], forecastContainer);
+  return appendCardElements(
+    [backBtn, weatherToday, dailySummary],
+    forecastContainer
+  );
 };
 
-const forecastApiCall = async (forecastContainer) => {
-  const parameters = urlParams();
-
-  const { lon, lat } = parameters;
+const forecastApiCall = async (params, apiKey) => {
+  const { lon, lat } = params;
   try {
     const { data } = await axios.get(
       `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=current,minutely,hourly&appid=${apiKey}`
@@ -136,15 +135,17 @@ const forecastApiCall = async (forecastContainer) => {
     forecastList.innerHTML = fourDayWeather;
     forecastContainer.appendChild(forecastList);
     forecastDynamicBackground(document.getElementById("description"));
+
+    return forecastContainer;
   } catch (error) {
     console.error("Error:", error);
   }
 };
 
 const loadForecastCity = async () => {
-  const forecastContainer = document.getElementById("forecast");
-  generateDailySummary();
-  forecastApiCall(forecastContainer);
+  const params = urlParams();
+  const dailySummaryElements = generateDailySummary(params);
+  const forecastListElement = await forecastApiCall(params, apiKey);
 };
 
 window.addEventListener("load", loadForecastCity);

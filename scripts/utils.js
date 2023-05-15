@@ -337,13 +337,13 @@ export const forecastDynamicBackground = (weatherDescription) => {
     case "scattered clouds":
     case "broken clouds":
     case "overcast clouds":
+    case "mist":
       body.style.setProperty("background", "var(--clouds)");
       break;
     case "shower rain":
     case "rain":
     case "light rain":
     case "thunderstorm":
-    case "mist":
       body.style.setProperty("background", "var(--rain)");
       break;
     case "snow":
@@ -373,4 +373,56 @@ export const skeletonLoading = (app) => {
 
 export const sortFavorites = (favorites) => {
   return favorites.sort((a, b) => (a < b ? -1 : 1));
+};
+
+// =================================================
+
+// reusable functions for search form
+
+const createFormContainer = () =>
+  createWeatherCardElement(
+    [
+      { name: "id", value: "searchForm" },
+      { name: "class", value: "search-form" },
+    ],
+    "form"
+  );
+
+const createLabel = () =>
+  createWeatherCardElement(
+    [
+      { name: "for", value: "search-input" },
+      { name: "class", value: "search-input-label" },
+    ],
+    "label",
+    "Enter city"
+  );
+
+const createSearchInput = () =>
+  createWeatherCardElement(
+    [
+      { name: "id", value: "citySearch" },
+      { name: "class", value: "search-input" },
+      { name: "type", value: "text" },
+      { name: "name", value: "search-input" },
+    ],
+    "input"
+  );
+
+const createInputBtn = () =>
+  createWeatherCardElement(
+    [{ name: "class", value: "search-btn" }],
+    "button",
+    "search"
+  );
+
+export const createFormElements = () => {
+  const formContainer = createFormContainer();
+  const label = createLabel();
+  const searchInput = createSearchInput();
+  const inputBtn = createInputBtn();
+
+  appendCardElements([label, searchInput, inputBtn], formContainer);
+
+  return [formContainer];
 };
