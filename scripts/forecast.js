@@ -2,11 +2,12 @@
 import apiKey from "../apiKey.js";
 import {
   forecastDynamicBackground,
+  appendCardElements,
   createWeatherCardElement,
   getInternationalDateTime,
 } from "./utils.js";
 
-export const loadForecastCity = async () => {
+const urlParams = () => {
   const params = new URLSearchParams(window.location.search);
   const cityName = params.get("city");
   const lon = params.get("lon");
@@ -19,6 +20,37 @@ export const loadForecastCity = async () => {
   const visibility = params.get("visibility");
   const datestring = params.get("dt");
   const timezone = params.get("timezone");
+  return {
+    cityName,
+    lon,
+    lat,
+    temp,
+    icon,
+    description,
+    windSpeed,
+    humidity,
+    visibility,
+    datestring,
+    timezone,
+  };
+};
+
+const generateDailySummary = (params) => {
+  const parameters = urlParams();
+
+  const {
+    cityName,
+    lon,
+    lat,
+    temp,
+    icon,
+    description,
+    windSpeed,
+    humidity,
+    visibility,
+    datestring,
+    timezone,
+  } = parameters;
 
   const weatherData = [
     { name: "Wind", value: windSpeed, icon: icon, unit: "mph" },
@@ -32,18 +64,14 @@ export const loadForecastCity = async () => {
     "button"
   );
 
-  // const backBtn = document.createElement("button");
-  // backBtn.setAttribute("class", "forecast__back-button btn");
-  const back = `
-  
-<a href="index.html">Back </a>
-
-  `;
+  const back = ` <a href="index.html">Back </a>`;
   backBtn.innerHTML = back;
 
-  const weatherToday = document.createElement("section");
-  weatherToday.setAttribute("class", "forecast__weather-today");
-  // const date = new Date();
+  const weatherToday = createWeatherCardElement(
+    [{ name: "class", value: "forecast__weather-today" }],
+    "section"
+  );
+
   const celsius = Math.round(temp - 273.15) + "°C";
 
   const cityDayWeather = `
@@ -55,8 +83,11 @@ export const loadForecastCity = async () => {
   <p class="forecast__description" id="description">${description} </p>
   <p class="forecast__temp">${celsius} </p>`;
 
-  const dailySummary = document.createElement("section");
-  dailySummary.setAttribute("class", "forecast__daily-summary");
+  const dailySummary = createWeatherCardElement([
+    { name: "class", value: "forecast__daily-summary" },
+    "section",
+  ]);
+
   const summaryText = weatherData.map((weather) => {
     const { name, value, unit } = weather;
 
@@ -70,19 +101,24 @@ export const loadForecastCity = async () => {
 
   dailySummary.innerHTML = summaryText.join(" ");
   weatherToday.innerHTML = cityDayWeather;
-  forecastContainer.appendChild(backBtn);
-  forecastContainer.appendChild(weatherToday);
-  forecastContainer.appendChild(dailySummary);
+  appendCardElements([backBtn, weatherToday, dailySummary], forecastContainer);
+};
 
+const forecastApiCall = async (forecastContainer) => {
+  const parameters = urlParams();
+
+  const { lon, lat } = parameters;
   try {
     const { data } = await axios.get(
-      // `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&cnt=4&appid=${apiKey}`
       `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=current,minutely,hourly&appid=${apiKey}`
     );
 
     const { daily } = data;
-    const forecastList = document.createElement("section");
-    forecastList.setAttribute("class", "forecast__list");
+    const forecastList = createWeatherCardElement([
+      { name: "class", value: "forecast__list" },
+      "section",
+    ]);
+    // forecastList.setAttribute("class", "forecast__list");
     const forecastArr = daily.slice(1, 5).map((item) => ({
       description: item.weather[0].description,
       icon: item.weather[0].icon,
@@ -98,11 +134,11 @@ export const loadForecastCity = async () => {
         return `
       <div class="forecast__list-item">
       <h3>${localDate.toLocaleString()}</h3>
-      <p>${description}</p> 
+      <p>${description}</p>
       <img src="https://openweathermap.org/img/wn/${icon}@2x.png" alt="weather icon" class="forecast__forecast-summary-weather-icon">
 
       </div>
-    
+
       `;
       })
       .join("");
@@ -113,6 +149,12 @@ export const loadForecastCity = async () => {
   } catch (error) {
     console.error("Error:", error);
   }
+};
+
+const loadForecastCity = async () => {
+  const forecastContainer = document.getElementById("forecast");
+  generateDailySummary();
+  forecastApiCall(forecastContainer);
 };
 
 window.addEventListener("load", loadForecastCity);

@@ -11,8 +11,34 @@ import {
 
 const app = document.getElementById("root");
 
+const renderFavoriteCity = async (city) => {
+  try {
+    const weatherApiData = await apiCall(city, apiKey);
+    const favoritesSection = document.querySelector(".favorites");
+
+    const { card, iconsContainer } = createWeatherCard(
+      weatherApiData,
+      favoritesSection
+    );
+
+    const removeButton = createWeatherCardElement(
+      [
+        { name: "id", value: "removeBtn" },
+        { name: "class", value: "remove-btn" },
+        { name: "src", value: "../images/minus.png" },
+        { name: "alt", value: "minus icon" },
+      ],
+      "img"
+    );
+
+    attachRemoveListener(removeButton, card, city, iconsContainer);
+    attachCardClickListener(card, weatherApiData);
+  } catch (error) {
+    console.error("Error", error);
+  }
+};
+
 export const getFavorites = async () => {
-  // map over localStorage
   try {
     const citiesString = localStorage.getItem("cities");
     const citiesArray = JSON.parse(citiesString);
@@ -27,36 +53,16 @@ export const getFavorites = async () => {
     );
 
     const sortedCitiesArray = sortFavorites(citiesArray);
-    console.log("the sorted cities are:", sortedCitiesArray);
-    appendCardEl(heading, favoritesSection);
+    console.log("The sorted cities are:", sortedCitiesArray);
 
+    appendCardEl(heading, favoritesSection);
     app.appendChild(favoritesSection);
 
-    // loop over favorites array and for each get the key and make an api call the item from localstorage
     for (let city of sortedCitiesArray) {
-      console.log("the city is:", city);
-
-      const weatherApiData = await apiCall(city, apiKey);
-      const { card, iconsContainer } = createWeatherCard(
-        weatherApiData,
-        favoritesSection
-      );
-
-      const removeButton = createWeatherCardElement(
-        [
-          { name: "id", value: "removeBtn" },
-          { name: "class", value: "remove-btn" },
-          { name: "src", value: "../images/minus.png" },
-          { name: "alt", value: "minus icon" },
-        ],
-        "img"
-      );
-
-      attachRemoveListener(removeButton, card, city, iconsContainer);
-      attachCardClickListener(card, weatherApiData);
+      console.log("The city is:", city);
+      await renderFavoriteCity(city);
     }
-    sortFavorites(citiesArray);
   } catch (error) {
-    console.error("error", error);
+    console.error("Error", error);
   }
 };

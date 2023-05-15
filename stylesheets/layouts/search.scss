@@ -57,6 +57,14 @@
     }
   }
 }
+
+.search-input-label {
+  font-size: clamp(0.75rem, 0.625rem + 0.4vw, 0.875rem);
+  display: flex;
+  align-self: center;
+  margin-block-end: 1em;
+}
+
 // placeholder to stop js related content layout shifts
 .search-results-placeholder {
   height: 234px;

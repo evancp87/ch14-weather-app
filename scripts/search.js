@@ -7,6 +7,7 @@ import {
   attachAddFavoriteListener,
   appendCardElements,
 } from "./utils.js";
+import { schema } from "./errors.js";
 
 const search = document.getElementById("search-section");
 let weatherData;
@@ -14,6 +15,16 @@ let results;
 let input;
 
 export const loadForm = () => {
+  const formElements = createFormElements();
+  const resultsContainer = createResultsContainer();
+  const backBtn = createBackButton();
+
+  appendCardElements([backBtn, ...formElements, resultsContainer], search);
+
+  addEventListeners();
+};
+
+const createFormElements = () => {
   const formContainer = createWeatherCardElement(
     [
       { name: "id", value: "searchForm" },
@@ -21,37 +32,35 @@ export const loadForm = () => {
     ],
     "form"
   );
-
   const label = createWeatherCardElement(
-    [{ name: "for", value: "search-input" }],
+    [
+      { name: "for", value: "search-input" },
+      { name: "class", value: "search-input-label" },
+    ],
     "label",
-    "Enter a city"
+    "Enter city"
   );
   const searchInput = createWeatherCardElement(
     [
       { name: "id", value: "citySearch" },
-      { name: "class", value: "search-input" },
       { name: "class", value: "search-input" },
       { name: "type", value: "text" },
       { name: "name", value: "search-input" },
     ],
     "input"
   );
-
   const inputBtn = createWeatherCardElement(
     [{ name: "class", value: "search-btn" }],
-    "input"
+    "button",
+    "search"
   );
 
   appendCardElements([label, searchInput, inputBtn], formContainer);
 
-  // TODO: add labels
-  formContainer.innerHTML = ` 
-                   <input id="citySearch" type="text" class="search-input">
-                   <button class="search-btn"type="submit">Search</button>
-   
-          `;
+  return [formContainer];
+};
 
+const createResultsContainer = () => {
   results = createWeatherCardElement(
     [
       { name: "id", value: "results" },
@@ -59,7 +68,6 @@ export const loadForm = () => {
     ],
     "div"
   );
-
   const placeholder = createWeatherCardElement(
     [{ name: "class", value: "search-results-placeholder" }],
     "div"
@@ -67,50 +75,56 @@ export const loadForm = () => {
 
   results.appendChild(placeholder);
 
-  // lifting the scope
+  return results;
+};
 
-  appendCardElements([formContainer, results], search);
+const createBackButton = () => {
   const backBtn = createWeatherCardElement(
     [{ name: "class", value: "search__back-button btn" }],
     "button"
   );
 
-  // const backBtn = document.createElement("button");
-  // backBtn.setAttribute("class", "forecast__back-button btn");
-  const back = `
-  
-<a href="index.html">Back </a>
-
-  `;
+  const back = `<a href="index.html">Back</a>`;
   backBtn.innerHTML = back;
-  appendCardElements([backBtn, formContainer, results], search);
-  // search.appendChild(formContainer);
-  // search.appendChild(results);
 
+  return backBtn;
+};
+
+const addEventListeners = () => {
   const searchForm = document.getElementById("searchForm");
-
-  // Add event listener to the search form
-  searchForm.addEventListener("submit", searchHandler);
+  searchForm.addEventListener("submit", handleSearch);
 
   input = document.getElementById("citySearch");
-  // TODO
   input.addEventListener("focus", focusInput);
   input.addEventListener("blur", blurInput);
 };
 
-// handles searching and display results on submit
-const searchHandler = async (e) => {
+const displayErrorMessage = () => {
+  const results = document.getElementById("results");
+  results.innerHTML = "<p>City not found</p>";
+};
+
+const handleSearch = async (e) => {
   e.preventDefault();
   try {
     let city = document.getElementById("citySearch").value.trim();
     console.log(city);
 
+    // Validate the input using the schema
+    const { error } = schema.validate(city);
+    if (error) {
+      throw new Error("Invalid input. Only text is allowed.");
+    }
+
     weatherData = await apiCall(city, apiKey);
+
+    if (weatherData.cod === "404") {
+      throw new Error("City not found");
+    }
 
     console.log("the data is:", weatherData);
     const results = document.getElementById("results");
 
-    // disallows duplicate searches if currently the city displayed
     const alreadyAdded = Array.from(results.children).some((child) => {
       const headingElement = child.querySelector(".card__heading");
       return (
@@ -119,10 +133,7 @@ const searchHandler = async (e) => {
       );
     });
 
-    // Display the weather information on the webpage
-
     if (!alreadyAdded) {
-      // removes previous search result and replaces with new city each submission
       results.innerHTML = "";
 
       const { card, iconsContainer } = createWeatherCard(weatherData, results);
@@ -137,10 +148,12 @@ const searchHandler = async (e) => {
       );
       attachAddFavoriteListener(plusIcon, city, iconsContainer);
       attachCardClickListener(card, weatherData);
-      // appendCardEl(plusIcon, iconsContainer);
     }
   } catch (error) {
     console.error("error:", error);
+    if (error.message === "City not found") {
+      displayErrorMessage();
+    }
   }
 };
 

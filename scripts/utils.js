@@ -268,8 +268,6 @@ export const attachCardClickListener = (card, weatherApiData) => {
   });
 };
 
-// TODO: fix this
-
 export const appendElementsToSearch = (elements, searchContainer) => {
   elements.forEach((element) => {
     searchContainer.appendChild(element);
@@ -281,15 +279,6 @@ export const getCurrentDate = () => {
   const options = { year: "numeric", month: "long", day: "numeric" };
   return currentDate.toLocaleDateString("en-gb", options);
 };
-
-// export const getInternationalDate = (dateStr) => {
-//   const d = new Date(dateStr);
-
-//   const datestring = `${d.getDate()}/${
-//     d.getMonth() + 1
-//   }/${d.getFullYear()} - ${d.getTime().toLocaleString()}`;
-//   return datestring;
-// };
 
 export const getInternationalDateTime = (timestamp, timezone) => {
   const d = new Date(timestamp * 1000);
