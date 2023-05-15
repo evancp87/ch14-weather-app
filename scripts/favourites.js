@@ -57,7 +57,7 @@ const createFavoritesSection = () => {
 
 export const getFavorites = async () => {
   try {
-    //     // gets key of localStorage favorites and turns into array
+    //  gets key of localStorage favorites and turns into array
 
     const citiesString = localStorage.getItem("cities");
     const citiesArray = JSON.parse(citiesString);
@@ -74,21 +74,3 @@ export const getFavorites = async () => {
     console.error("Error", error);
   }
 };
-
-// export const getFavorites = async () => {
-//   try {
-//     // gets key of localStorage favorites and turns into array
-//     const citiesString = localStorage.getItem("cities");
-//     const citiesArray = JSON.parse(citiesString);
-//     const favoritesSection = createFavoritesSection();
-//     const sortedCitiesArray = sortFavorites(citiesArray);
-//     console.log("The sorted cities are:", sortedCitiesArray);
-
-//     for (let city of sortedCitiesArray) {
-//       console.log("The city is:", city);
-//       await renderFavoriteCity(city);
-//     }
-//   } catch (error) {
-//     console.error("Error", error);
-//   }
-// };
