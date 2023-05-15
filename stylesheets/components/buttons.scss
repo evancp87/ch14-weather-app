@@ -50,6 +50,10 @@
   max-width: 20px;
   height: 20px;
   grid-row: 4;
+  transition: scale 0.5s ease-in-out;
+  &:hover {
+    scale: 1.3;
+  }
 }
 
 .forecast__back-button {
@@ -58,4 +62,11 @@
 .search__back-button {
   @extend %back-button;
   align-self: center;
+}
+
+.forecast__back-button,
+.search__back-button {
+  :active {
+    color: $search-btn;
+  }
 }

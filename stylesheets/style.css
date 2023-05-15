@@ -495,10 +495,20 @@ body {
   max-width: 20px;
   height: 20px;
   grid-row: 4;
+  transition: scale 0.5s ease-in-out;
+}
+.remove-btn:hover,
+.plus-icon:hover {
+  scale: 1.3;
 }
 
 .search__back-button {
   align-self: center;
+}
+
+.forecast__back-button :active,
+.search__back-button :active {
+  color: #db876b;
 }
 
 .skeleton-card {
