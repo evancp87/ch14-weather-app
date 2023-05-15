@@ -263,7 +263,8 @@ export const attachCardClickListener = (card, weatherApiData) => {
       weatherApiData.speed,
       weatherApiData.visibility,
       weatherApiData.icon,
-      weatherApiData.dt
+      weatherApiData.dt,
+      weatherApiData.timezone
     );
   });
 };
@@ -280,18 +281,15 @@ export const getCurrentDate = () => {
   return currentDate.toLocaleDateString("en-gb", options);
 };
 
-export const getInternationalDateTime = (timestamp, timezone) => {
+export const getInternationalDateTime = (timestamp) => {
   const d = new Date(timestamp * 1000);
   const options = {
     year: "numeric",
     month: "2-digit",
     day: "2-digit",
-    hour: "2-digit",
-    minute: "2-digit",
-    timezone: timezone || "UTC",
   };
-  console.log(timezone);
-  return d.toLocaleString("en-GB", options);
+
+  return d.toLocaleDateString("en-gb", options);
 };
 
 export const getCurrentTime = () => {

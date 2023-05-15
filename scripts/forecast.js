@@ -20,6 +20,7 @@ const urlParams = () => {
   const visibility = params.get("visibility");
   const datestring = params.get("dt");
   const timezone = params.get("timezone");
+  console.log(timezone);
   return {
     cityName,
     lon,
@@ -40,8 +41,6 @@ const generateDailySummary = (params) => {
 
   const {
     cityName,
-    lon,
-    lat,
     temp,
     icon,
     description,
@@ -76,10 +75,7 @@ const generateDailySummary = (params) => {
 
   const cityDayWeather = `
   <h2 >${cityName}</h2>
-  <p class="forecast__date">${getInternationalDateTime(
-    datestring,
-    timezone
-  )} </p>
+  <p class="forecast__date">${getInternationalDateTime(datestring)} </p>
   <p class="forecast__description" id="description">${description} </p>
   <p class="forecast__temp">${celsius} </p>`;
 
@@ -122,18 +118,16 @@ const forecastApiCall = async (forecastContainer) => {
     const forecastArr = daily.slice(1, 5).map((item) => ({
       description: item.weather[0].description,
       icon: item.weather[0].icon,
-      date: item.dt,
+      date: getInternationalDateTime(item.dt),
     }));
 
     const fourDayWeather = forecastArr
       .map((weather) => {
         const { description, date, icon } = weather;
-        const timezone = new Date().getTimezoneOffset();
-        const timezoneOffsetMillis = timezone * 60 * 1000;
-        const localDate = new Date((date + timezoneOffsetMillis) * 1000);
+
         return `
       <div class="forecast__list-item">
-      <h3>${localDate.toLocaleString()}</h3>
+      <h3>${date}</h3>
       <p>${description}</p>
       <img src="https://openweathermap.org/img/wn/${icon}@2x.png" alt="weather icon" class="forecast__forecast-summary-weather-icon">
 
